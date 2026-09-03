@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;family=League+Gothic&amp;display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #F0F0E7; color: #002257; font-family: "Open Sans", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #005794; text-decoration: none; }
+  a:hover { color: #002257; }
+  ::selection { background: #FFC955; color: #002257; }
+
+  @media (max-width: 1100px) {
+    [data-r="five"] { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+    [data-r="four"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+  }
+  @media (max-width: 900px) {
+    [data-r="hero"] { grid-template-columns: minmax(0,1fr) !important; gap: 26px !important; padding: 76px 24px 40px !important; }
+    [data-r="hero"] > div { grid-column: 1 / -1 !important; padding-bottom: 0 !important; }
+    #top { min-height: 440px !important; }
+    [data-r="side"] { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
+    [data-r="side"] > aside, [data-r="side"] > div:first-child { position: static !important; }
+    [data-r="side"] > aside > div:last-child > div:last-child { display: grid !important; grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+    [data-r="three"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+    [data-r="six"] { grid-template-columns: repeat(4, minmax(0,1fr)) !important; }
+    [data-r="pod"] { grid-template-columns: 96px minmax(0,1fr) !important; gap: 18px !important; padding: 16px 18px !important; }
+    [data-r="pod"] img { width: 96px !important; height: 96px !important; }
+    [data-r="nav"] { flex-wrap: wrap !important; gap: 16px !important; row-gap: 8px !important; }
+    [style*="width: 626px"] { width: auto !important; height: auto !important; }
+  }
+  @media (max-width: 620px) {
+    [data-r="hero"] { padding: 60px 18px 32px !important; }
+    [data-r="hero"] h1 { font-size: clamp(44px,13vw,88px) !important; }
+    [data-r="hero"] p { font-size: 16px !important; }
+    [data-r="hero"] > div:last-child { gap: 12px 24px !important; }
+    #top { min-height: 380px !important; }
+    [data-r="two"], [data-r="three"] { grid-template-columns: minmax(0,1fr) !important; }
+    [data-r="six"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+    [data-r="four"], [data-r="five"] { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+    header, section, article,
+    [style*="padding: 52px 32px 80px"], [style*="padding:52px 32px 80px"],
+    [style*="padding: 0 32px 72px"], [style*="padding:0 32px 72px"],
+    [style*="padding: 56px 32px 0"], [style*="padding:56px 32px 0"] { padding-left: 18px !important; padding-right: 18px !important; }
+    [data-r="side"] { gap: 26px !important; }
+    [data-r="side"] > aside > div:last-child > div:last-child { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+    [data-r="mat"] { grid-template-columns: 1fr 24px !important; gap: 10px 16px !important; }
+    [data-r="pod"] { grid-template-columns: minmax(0,1fr) !important; gap: 14px !important; }
+    [data-r="pod"] img { width: 100% !important; max-width: 160px !important; height: auto !important; aspect-ratio: 1 !important; }
+    [data-r="mat"] > span:first-of-type { grid-column: 1 !important; }
+  }
+  @media (max-width: 460px) {
+    [data-r="four"], [data-r="five"] { grid-template-columns: minmax(0,1fr) !important; }
+  }
+
+</style>
+</helmet>
+
+<div style="width:100%; overflow-x:hidden">
+
+  <sc-if value="{{ verTema }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <header style="background:#002257; padding:18px 32px">
+        <div style="max-width:1000px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:24px">
+          <img src="assets/empower-white.png" alt="EMpower" style="height: 50px; width: 126px; display: block">
+          <a href="#materiales" style="font-size:13.5px; font-weight:600; color:rgba(255,255,255,0.85)" style-hover="color:#FFC955">← Volver a la Comunidad de Práctica</a>
+        </div>
+      </header>
+
+      <sc-if value="{{ verTema }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:56px 32px 72px">
+          <span style="font-size:11.5px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#005794">Materiales por tema</span>
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:16px 0 22px; text-wrap:pretty">{{ temaTitulo }}</h1>
+          <p style="max-width:640px; font-size:16px; line-height:1.7; color:rgba(0,34,87,0.78); margin:0 0 44px; text-wrap:pretty">{{ temaIntro }}</p>
+
+          <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 4px">Materiales disponibles</div>
+          <div style="display:flex; flex-direction:column; gap:0; border-bottom:1px solid rgba(0,34,87,0.16)">
+            <sc-for list="{{ temaMateriales }}" as="m" hint-placeholder-count="3">
+              <a href="{{ m.link }}" target="_blank" rel="noopener" data-r="mat" style="display:grid; grid-template-columns:1fr 150px 28px; align-items:center; gap:24px; padding:20px 8px; border-top:1px solid rgba(0,34,87,0.16)" style-hover="background:rgba(0,34,87,0.04)">
+                <div>
+                  <div style="font-size:18px; font-weight:700; color:#002257; margin:0 0 5px">{{ m.titulo }}</div>
+                  <p style="font-size:14px; line-height:1.6; color:rgba(0,34,87,0.7); margin:0">{{ m.desc }}</p>
+                  <sc-for list="{{ m.items }}" as="it" hint-placeholder-count="0">
+                    <div style="display:grid; grid-template-columns:10px minmax(0,1fr); gap:8px; margin-top:8px">
+                      <span style="font-size:14px; line-height:1.55; color:#E0A400">·</span>
+                      <p style="font-size:13.5px; line-height:1.55; color:rgba(0,34,87,0.65); margin:0"><span style="font-weight:700; color:rgba(0,34,87,0.85)">{{ it.t }}</span> {{ it.d }}</p>
+                    </div>
+                  </sc-for>
+                </div>
+                <span style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:rgba(0,34,87,0.55)">{{ m.tipo }}</span>
+                <span style="font-size:20px; color:#005794; text-align:right">→</span>
+              </a>
+            </sc-for>
+          </div>
+
+          <div style="margin-top:36px; display:flex; align-items:center; gap:18px; flex-wrap:wrap">
+            <sc-if value="{{ hayCarpeta }}" hint-placeholder-val="{{ true }}">
+            <a href="{{ temaCarpeta }}" target="_blank" rel="noopener" style="display:inline-block; background:#002257; color:#F0F0E7; font-size:13.5px; font-weight:700; padding:13px 24px; border-radius:999px" style-hover="background:#005794; color:#ffffff">Ver la carpeta completa →</a>
+            </sc-if>
+          </div>
+        </article>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ verHistoria }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <header style="background:#002257; padding:18px 32px">
+        <div style="max-width:1000px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:24px">
+          <img src="assets/empower-white.png" alt="EMpower" style="height: 50px; width: 126px; display: block">
+          <a href="#historias" style="font-size:13.5px; font-weight:600; color:rgba(255,255,255,0.85)" style-hover="color:#FFC955">← Volver a la Comunidad de Práctica</a>
+        </div>
+      </header>
+
+      <div style="max-width:1000px; margin:0 auto; padding:56px 32px 0">
+        <span style="font-size:11.5px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#005794">Historias de la comunidad: {{ nombreHistoria }}</span>
+      </div>
+
+      <sc-if value="{{ esAlina }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">Animarse a preguntar puede abrir oportunidades</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-alina.png" alt="Alina" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Sigo siendo una persona curiosa, pero que ahora tiene más iniciativa para ver y preguntar, y sin tanto miedo de hablarle a la gente</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Alina soñaba con estudiar el profesorado en Letras, pero antes tenía que resolver algo más urgente: "necesitaba encontrar un trabajo de medio tiempo. Algo que sea compatible con estudiar una carrera, pero que me permitiera tener un ingreso". Un día se enteró que empezaba un ciclo de cursos en la Fundación Reciduca. "Me llamó la atención esto de que era como una formación y que te ayudaba con la búsqueda de empleo". Se anotó casi sin pensarlo.</p>
+            <p style="margin:0 0 22px">Empezó con un curso de marketing, al que luego se sumó uno de atención al cliente con visitas a grandes empresas que le mostraron distintos recorridos profesionales posibles. En paralelo, participó de talleres de comunicación, autoconocimiento e inteligencia emocional. “Para mí era algo nuevo. Pensé que era más como algo que se hacía únicamente con un psicólogo”</p>
+            <p style="margin:0 0 22px">Alina plantea que lo que aprendió de autorregulación emocional y la confianza fue clave y hoy las reconoce como habilidades necesarias para trabajar. “A mí lo que me da más miedo es como que hacer tal cosa y que pase un desastre. Pero es como que por ahí, si te lo pones a pensar, es como que no es no es probable que pase ese desastre. Y por ahí no sea tan desastre como pensás que es. Y además, si pasa, es como que puedes planificar una solución o una salida. Ese miedo se traducía en inacción... ¿y si pasa esto y esto? Bueno, no, mejor no lo hago”. También se recuerda como una persona muy curiosa que le daba miedo preguntar. “Antes de hacer los cursos de Reciduca, como que no se me cruzaba por la cabeza preguntar, sino que me quedaba con la duda, y después quizás se buscaba en Google o me fijaba a ver qué forma tenía para ver si podía encontrar respuesta”.</p>
+            <p style="margin:0 0 22px">Esa curiosidad encontró su momento decisivo en una clase donde le preguntaron qué le gustaría hacer si pudiera elegir cualquier cosa. Respondió, sin pensarlo demasiado, que le gustaría enseñar ajedrez. "Me acuerdo que yo dije que lo que a mí me gustaría hacer sería ir y enseñar a jugar ajedrez. Y ya después de la clase, la profe se acercó, me preguntó cosas más específicas. Fue un momento clave en mi vida y en mi carrera también," dice.</p>
+            <p style="margin:0 0 22px">La conversación la incentivó a preguntarle al profesor de ajedrez de centro barrial si había horas disponibles para dar clase. Consiguió su primer trabajo como docente de ajedrez para niños de 3 a 11 años, donde aprendió a planificar actividades, a tolerar la frustración cuando un grupo se aburría y a rearmar la clase sobre la marcha. Después de esa oportunidad, Alina reflexiona "sigo siendo una persona curiosa, pero que ahora tiene más iniciativa para ver y preguntar, y sin tanto miedo de hablarle a la gente," dice hoy.</p>
+            <p style="margin:0 0 22px">Hoy Alina está cumpliendo su meta de estudiar el Profesorado en Letras en la universidad. En paralelo, trabaja en un call center que consiguió a través del portal de empleo de Reciduca. Ese ingreso ayuda a sostener la casa en la que vive con su mamá y sus hermanas. "Si antes me hubieran dicho que iba a terminar trabajando en un call center, yo hubiera dicho: no, imposible, si yo no hablo con la gente" dice.</p>
+            <p style="margin:0 0 22px">Alina reflexiona sobre su recorrido: "me siento orgullosa de poder haber conseguido un trabajo de medio tiempo y poder estar estudiando en la universidad al mismo tiempo. Y creo que en haber mejorado mis habilidades de comunicación y animarme a preguntar”. Y cuenta que su meta ahora es alcanzar su título y ganarse la vida dando clases.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <sc-if value="{{ esKevin }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">Construir un proyecto de vida a medida</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-kevin.png" alt="Kevin" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Fue como pasar de un karting a hacer un auto de verdad</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Kevin terminó el colegio en plena pandemia de COVID sin tener muy claro cómo seguir. Su vida era una sucesión de trabajos temporales —en logística, atención al cliente y distintas changas—, pero sin una dirección definida. "Estaba medio en el limbo, no sabía muy bien qué quería hacer, tampoco sabía qué salida laboral tenía esa carrera", recuerda.</p>
+            <p style="margin:0 0 22px">Un amigo de la primaria le habló de un curso de programación en Fundación Formar. Kevin se inscribió y comenzó el precurso de Academia FORIT, donde aprendió las bases del desarrollo web full stack junto con habilidades para el trabajo y la vida. Al finalizar, fue una de las tres personas seleccionadas de su cohorte para incorporarse a FORIT, la fábrica de software de la Fundación Formar. "Me puse recontento, fue como un alivio. Bueno, ahora por lo menos tengo por dónde seguir."</p>
+            <p style="margin:0 0 22px">En FORIT comenzó a participar en proyectos reales para clientes, trabajando en equipo y recibiendo mentorías individuales. "Fue como pasar de un karting a hacer un auto de verdad", dice. Aunque el desafío técnico le resultó natural, pronto descubrió que el mayor aprendizaje iba por otro lado. "Yo era muy callado, muy tímido, muy cerrado en general. Ahí me vi obligado a cambiar eso, y de cierto modo me gustó, porque sabía que era lo que iba a necesitar si quería destacarme profesionalmente."</p>
+            <p style="margin:0 0 22px">Ese proceso tomó un rumbo inesperado cuando comenzó a reunirse semanalmente con una mentora de Formar. Durante una de esas conversaciones, ella le hizo una pregunta que nunca antes se había planteado en serio: "Me preguntó cómo me veía ahí a 5 años". Esa conversación marcó un antes y un después. "No tenía metas como tal, simplemente iba fluyendo y me metía. Las metas no estaban de antes, sino que fue después de pasar por Formar."</p>
+            <p style="margin:0 0 22px">Para Kevin, ese fue el verdadero cambio. Más allá de aprender programación, empezó a imaginar una carrera y a construir un proyecto de vida. "Por más bueno que hubiese sido en programación, no me hubiesen tomado en ningún trabajo. Creo que nadie quiere a alguien que se cierra solo o que no comunica los problemas que tiene." Los talleres de habilidades blandas y el acompañamiento constante le dieron herramientas para comunicarse, trabajar en equipo y ganar confianza. Con el tiempo, se convirtió en el integrante con más trayectoria en la oficina y comenzó a liderar el onboarding de los nuevos compañeros, una experiencia que descubrió que disfrutaba especialmente.</p>
+            <p style="margin:0 0 22px">La transformación también llegó a su vida personal. Kevin cuenta que ahora puede participar con naturalidad de una reunión familiar sin aislarse, algo que antes le resultaba muy difícil. "Conseguir el trabajo fue un logro, pero creo que más que nada lo es haber desarrollado estas habilidades blandas, porque me afectaba en lo laboral, pero también en lo social. Toda la vida fui muy callado, muy reservado."</p>
+            <p style="margin:0 0 22px">Hace unos meses consiguió trabajo en Nomulabs, una empresa española, gracias a la recomendación de una de sus líderes técnicas en Formar cuando surgió una vacante para ampliar el equipo. Hoy trabaja desarrollando una aplicación para buceadores. "Me siento como realizado, aunque recién empecé a trabajar. Puedo dedicarme a esto que me gusta."</p>
+            <p style="margin:0 0 22px">Ahora sí tiene metas claras: quiere seguir creciendo profesionalmente, avanzar en seniority y, algún día, liderar un equipo. Sobre todo, quiere acompañar a otros jóvenes en ese mismo camino, del mismo modo en que él fue acompañado. Porque, antes de pasar por Formar, simplemente iba encontrando oportunidades sobre la marcha. Hoy, en cambio, sabe hacia dónde quiere ir y está construyendo, paso a paso, el proyecto de vida que alguna vez ni siquiera imaginó.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <sc-if value="{{ esJimena }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">Comunidades que sostienen las trayectorias</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-jimena.png" alt="Jimena" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Es muy fácil perderse si no existe una red de contención y guía</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Jimena tenía 15 años cuando su mamá la anotó, junto con su hermana, en un curso de programación. "Si les gusta o no les gusta después lo ven ahí, pero vayan y conozcan algo nuevo", les dijo. Ella no se imaginaba en ese mundo. "No me creía buena en matemáticas, ni en nada que tenga que ver con el mundo de la programación, porque no sabía que era para mí", recuerda. Hasta entonces, pensaba que estudiaría letras, filosofía o psicología.</p>
+            <p style="margin:0 0 22px">Todo cambió el día en que programó un pequeño robot y lo vio moverse por primera vez. "El momento en que programando compilé los bloques y vi cómo un robotito hacía su camino a partir de algo que estábamos programando con la compu, a mí me voló la cabeza. Yo me enamoré de esa magia", dice. Desde ese momento empezó a hacerse preguntas sobre cómo funcionaban las cosas. "Creo que la vida en general son preguntas, y una siempre es curiosa. A mí me parece que la curiosidad nos guía."</p>
+            <p style="margin:0 0 22px">Esa curiosidad la llevó a Chicas en Tecnología (CET), donde participó en distintos programas de formación. Pero el mayor descubrimiento no fue solamente la programación. Allí encontró una comunidad que la acompañó en una etapa decisiva de su vida, le mostró nuevas posibilidades y le permitió conocer, por primera vez, a mujeres ocupando posiciones de liderazgo en empresas tecnológicas. "Fue una segunda revelación que la programación, las ideas y la comunidad pueden cambiar el mundo."</p>
+            <p style="margin:0 0 22px">Ese acompañamiento fue clave cuando llegó el momento de decidir qué estudiar. "A los 17 o 18, en ese momento donde tenés que elegir qué estudiar, fue difícil. A mí me gustaban muchas cosas y quería agarrar una carrera que tenga la mayor cantidad de cosas para aprender. Había descubierto que sí me gustaba la programación y la matemática." Así decidió estudiar Ciencia de Datos en la Universidad de Buenos Aires.</p>
+            <p style="margin:0 0 22px">Hoy trabaja en Pan American Energy, donde analiza datos y procesos para distintas áreas de la empresa. Allí comprobó que una carrera tecnológica implica mucho más que programar. "Quizás una piensa que estudiando carreras técnicas tiene que caer en programar las 24 horas. Metés un montón de programación porque tenés una cabeza súper estructurada, pero, al mismo tiempo, es un trabajo muy de estar hablando constantemente con las personas y estar evaluando sus necesidades."</p>
+            <p style="margin:0 0 22px">Como muchas mujeres en tecnología, todavía convive con el síndrome del impostor. "Nunca me termino de sentir suficiente para el lugar en el que estoy, y eso va bastante de la mano con ser mujer, y con estar todo el tiempo con varones que te lo hacen sentir", admite.</p>
+            <p style="margin:0 0 22px">Mirando hacia atrás, entiende que ninguna de esas decisiones las tomó sola. "Es muy fácil perderse si no existe una red de contención y guía." Por eso hoy volvió a CET como embajadora para acompañar a otras jóvenes que recién empiezan su recorrido. "Siento que es una responsabilidad devolver de alguna forma lo que me dieron y replicarlo, seguir fomentando estos espacios."</p>
+            <p style="margin:0 0 22px">Desde 2022, Chicas en Tecnología forma parte de la red de organizaciones aliadas de EMpower en Argentina. A través de una alianza de largo plazo, la organización recibe apoyo flexible para desarrollar e implementar su programa de empleabilidad para mujeres jóvenes, así como asistencia técnica para fortalecer sus capacidades institucionales. Este acompañamiento refleja el enfoque de EMpower: identificar organizaciones con un enorme potencial de impacto cuando todavía son pequeñas y tienen un acceso limitado a grandes fuentes de financiamiento, e invertir tanto en sus programas como en su fortalecimiento institucional para ayudarlas a crecer, consolidarse y ampliar las oportunidades que generan para las personas jóvenes.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <sc-if value="{{ esFlorencia }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">De necesitar una referente a convertirse en una</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-florencia.png" alt="Florencia" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Encontré mujeres que me mostraron que esa posibilidad existía</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Florencia cursó una secundaria técnica donde las mujeres eran minoría: de curso de treinta personas apenas cinco o seis mujeres. "Desde el día uno me tuve que enfrentar a una situación en la que no estaba acostumbrada", recuerda. Con el tiempo esa sensación de estar sola creció, sobre todo cuando empezó a interesarse por la tecnología y no encontraba a nadie más en el colegio que compartiera esa curiosidad. "¿Cómo puede ser que esto que a mí me está llamando la atención, que a mí me interesa, no haya nadie más en todo el colegio que esté en la misma que yo?".</p>
+            <p style="margin:0 0 22px">Un día le contó esa frustración a un profesor, que le habló de Chicas en Tecnología: un espacio para aprender con mujeres sobre tecnología. Investigó y se anotó en el primer programa que encontró. De ahí fue sumando programas más técnicos, formación con apoyo de inteligencia artificial y, más adelante, el tramo de empleabilidad.</p>
+            <p style="margin:0 0 22px">En uno de los talleres, visitó las oficinas de Standard and Poor en Argentina para practicar oratoria, habilidades blandas y armados de CV junto con los equipos profesionales. Allí fue la primera vez que conoció a una mujer en un puesto de liderazgo y lo recuerda como un hito en su recorrido. "Encontré mujeres que me mostraron que esa posibilidad existía, gente que hoy en día está trabajando en tecnología, gente que lideraba grupos y equipos diversos." Eso le abrió una posibilidad que antes no hubiera pensado: “Fue como mi foco, decir bueno, esto es lo que yo quiero hacer. Pude ver en algo tangible que eso que yo tenía, tantas preguntas o tantas incertidumbres, era realmente posible."</p>
+            <p style="margin:0 0 22px">Esa visita le quedó marcada. "Me voló el bocho escucharla, la forma de comunicar, súper segura de sí misma, tranquila, muy inspiradora”. Fue el inicio de trabajar su confianza y ponerse metas de cómo quería proyectarse profesionalmente. “Primero animarme a anotarme a más programas, después a programas más técnicos, de a poco fui incorporando los que eran más de programación... fui profesionalizandome y cada uno me llevó a desarrollar distintas habilidades.“ Con el tiempo pasó a acompañar a otras jóvenes en su recorrido, un rol que describe como devolver lo que a ella le dieron.</p>
+            <p style="margin:0 0 22px">Actualmente Florencia estudia Ingeniería Industrial, buscando el cruce entre lo industrial y la tecnología como herramienta. A un año de recibirse, lo percibe como "un logro no solo para mí, sino para mis papás, que fueron contención y apoyo tanto tiempo" y destaca ser la primera ingeniera de su familia. En paralelo, trabaja en Toyota, como pasante de ingeniería de producción. En ambos espacios se repitió el patrón: en su facultad, las mujeres son menos del diez por ciento, y en cursos de cuarenta personas a veces son apenas cuatro o cinco. Todos sus profesores de ingeniería son hombres. En la fábrica, junto a la línea de producción, además del ambiente masculinizado se suma el desafío de la edad, con compañeros que tienen más años en la empresa que ella de vida y con frecuencia se refieren a ella como "chiquita" o "nena". "Hay que hacer valer todo el conocimiento que traes, que muchas veces te ponen en duda solo por el hecho de ser mujer o de ser más joven" dice.</p>
+            <p style="margin:0 0 22px">Florencia reflexiona sobre su recorrido y las herramientas que desarrolló: “Me siento mucho más segura de mí misma y mucho más capaz, no tanto por las habilidades técnicas, porque esas se van ganando con la experiencia y con el tiempo, sino porque si me propongo algo, sé que con esfuerzo y con trabajo lo puedo cumplir".</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <sc-if value="{{ esNayla }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">La formalidad laboral para la estabilidad</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-nayla.png" alt="Nayla" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Quería algo distinto, algo que me diera estabilidad</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Nayla empezó a trabajar desde muy joven en una panadería de Berazategui, un barrio humilde y trabajador, bajo condiciones que hoy define como “agotadoras”. “Tenía que hacer de todo. Era franquera, me llamaban cuando faltaba alguien y salía corriendo. Pedía hacer doble turno, así me permitía tener más ingresos. Arrancaba a las 7 de la mañana y nos quedábamos hasta las 10 de la noche”, recuerda.</p>
+            <p style="margin:0 0 22px">La decisión no fue solo laboral, sino familiar. En un contexto donde el trabajo informal suele ser la opción más accesible, especialmente para mujeres jóvenes sin experiencia previa, aceptar jornadas extensas y sin registro se convirtió en una respuesta a la urgencia para ella y su familia. “En mi casa mi mamá toma changas de cuidados de adultos mayores, además de hacer las tareas del hogar. Mi hermano más grande sigue en búsqueda de una oportunidad laboral”, cuenta.</p>
+            <p style="margin:0 0 22px">Durante años, el ingreso principal del hogar fue el sueldo de su padre quien trabajaba como empleado municipal. “Vivíamos los cinco con ese ingreso, pero el año pasado se enfermó y ahí todo cambió”, explica. La necesidad económica se volvió urgente y la panadería apareció como una salida inmediata. “No era lo que soñaba pero había que trabajar. Había que ayudar en casa”.</p>
+            <p style="margin:0 0 22px">Nayla sabía que tenía que buscar la oportunidad para cambiar esa trayectoria familiar. “Yo veía lo difícil que era para mi mamá depender de changas. Quería algo distinto, algo que me diera estabilidad”, señala. En ese proceso, conoció la Fundación Empujar. Tras completar la capacitación del programa “Tu Empleo”, Nayla obtuvo una beca de formación para realizar el curso de asistente administrativa en la empresa KPMG. Al poco tiempo, a través del portal de empleos de la fundación accedió a una entrevista en KelSoft, donde consiguió su primer empleo formal.</p>
+            <p style="margin:0 0 22px">Ahí entendió que la informalidad laboral no solo afectaba su vida personal sino también sus posibilidades académicas. Con su primer empleo, Nayla pudo reorganizar su rutina y comenzar sus estudios de bioingeniería en la universidad, donde cursa el tercer año.</p>
+            <p style="margin:0 0 22px">Actualmente trabaja como analista de e-commerce bajo modalidad home office. La estabilidad laboral le permitió mejorar sus condiciones y contar con cobertura de salud. “Ahora tengo obra social y eso me da seguridad. Me dan el espacio para estudiar, para ir al médico si lo necesitás. Me siento valorada”, cuenta.</p>
+            <p style="margin:0 0 22px">Además, su trabajo es bajo modalidad home office, lo que le permite estar cerca de su familia y transformar el tiempo que antes destinaba a traslados en horas de estudio. Esa organización flexible de la jornada resulta clave para sostener su carrera universitaria y acompañar la dinámica de su hogar.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <sc-if value="{{ esRomina }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">Salir de la zona de confort profesional</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-romina.png" alt="Romina" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Por primera vez en mi vida me vi como alguien que sí podía liderar un grupo</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Romina tenía diez años cuando su papá tuvo su primera computadora. "Me fascinaba mucho el hecho de tener una computadora en la casa. Usaba la notebook de mi papá, la usaba más yo que él". Viendo ese interés y con mucho esfuerzo, su papá logró comprarle una computadora básica como regalo de sus quince años. “Si no estaba en el colegio, estaba jugando con la computadora”. Ahí empezó a formarse de forma autodidacta viendo tutoriales de YouTube sobre diseño gráfico.</p>
+            <p style="margin:0 0 22px">En el último año de secundario, el colegio le ofreció la oportunidad de anotarse a un curso en la Fundación Oficios. “estábamos por recibirnos como técnicos de la informática. Nos comentaron que la organización tenía un curso de testing de aplicaciones que podíamos hacer que nos validen las horas como de pasantías para egresar”. Romina ya conocía a la fundación porque su papá había hecho ahí la formación de electricista buscando nuevos horizontes laborales.</p>
+            <p style="margin:0 0 22px">Así como tuvo su primera oportunidad para capacitarse en estos temas. Empezó con el curso de testing y luego en uno programación en Python. "Yo pensaba que ser tester era encontrar errores en aplicaciones, pero después aprendimos que en realidad el trabajo de un tester es aportar calidad a los proyectos que se van formando". Aprendió que el testing le cambió también la forma de pensarse a sí misma: "antes me centraba mucho en los errores, más que en seguir creciendo o aportar cosas de valor. Ahora lo único que trato de buscar son posibles soluciones o posibles ideas de mejoría en todos los aspectos". Esa misma seguridad se le nota hoy en cómo habla con otros.</p>
+            <p style="margin:0 0 22px">Romina cuenta cómo estas capacitaciones cambiaron su percepción sobre si misma: "antes me gustaba mucho hablar, pero me costaba demasiado. Ahora ya no lo siento tan así. Me animó y me ayudó a ganar confianza". El trabajo en equipo fue una oportunidad también para poner en práctica sus habilidades. "Por primera vez en mi vida me vi como alguien que sí podía liderar un grupo, algo que jamás me había pasado por la cabeza", cuenta. Hasta ese momento, Romina no se veía como alguien capaz de estar al frente de un grupo. "Yo jamás me vi en una postura de líder, como que siento que no es algo que se me dé tan bien. Prefiero más ser parte de los liderazgos, ser de los que siguen”.</p>
+            <p style="margin:0 0 22px">Romina cuenta que Fundación Oficios cambió la vida de su familia con la oportunidad de formarse y mostrando nuevos recorridos profesionales. "Mi mamá, mi papá y yo nos formamos en fundación. Creo que las herramientas que nos dio a los tres fue un cambio de visión de cómo se desarrollan los oficios en sí", dice. A su papá, que trabaja de electricista, se sumó su mamá que, con el curso de costura, se animó a lanzar su emprendimiento de peluches y fundas que rápidamente se convirtió en una iniciativa familiar. Romina la ayudaba en el armado de los diseños, los materiales y las sublimaciones.</p>
+            <p style="margin:0 0 22px">“Estaba tratando de apuntar a mejorar todo el tema del emprendimiento, cuando se me cruzó el tema de seguir estudiando. Quería estudiar programación”. Así fue como Romina fue la primera en su familia en cursar estudios universitarios de tecnicatura universitaria en programación en la UTN Pacheco, al tiempo que trabaja cuatro horas por día con una beca administrativa en la universidad. Reflexiona sobre su recorrido: "a mí me ayudaron, me gustaría también ayudar a alguien que lo necesite, poder dar oportunidades a todos de que puedan aprender o hacer lo que les gusta".</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <sc-if value="{{ esHernan }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">Siempre se puede aprender lo que hace falta</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-hernan.png" alt="Hernán" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Eso me motivaba a demostrarme que yo era capaz</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Hernán cursó la secundaria durante la pandemia. Como muchos adolescentes, sostener los estudios se volvió un desafío. "A mí me golpeó mucho porque yo no encontraba concentración, no podía estudiar. No tenía computadora de por sí, así que me costaba mucho. Tenía que usar el celular, me distraía cualquier cosa y hasta tenía conflictos con mi propia familia dentro de mi casa. Era todo muy complicado. Todos estábamos saturados, todos era difícil. Y ese fue un año donde a mí me fue espantoso y era muy difícil pensar en el futuro en ese momento." recuerda.</p>
+            <p style="margin:0 0 22px">Le quedó una materia pendiente por lo que no llegó a terminar el secundario en el tiempo esperado. Ahí fue cuando su hermana le contó sobre Puerta 18 y decidió anotarse. Cuando empezó iba todos los días que podía. Hizo cursos de fotografía, modelado 3D, de creatividad y Programación Frontend. Hernán se dio cuenta que la tecnología le apasionaba. “Hay veces que iba la mañana y me quedaba todo el día avanzando con un trabajo, avanzando con un proyecto. Y los profes me veían, eso me motivaba a demostrarme que yo era capaz, de podía avanzar, que podía seguir por más.”</p>
+            <p style="margin:0 0 22px">Al año, recibió una propuesta que no esperaba. Le ofrecieron una beca en un curso de Analista de Datos, con computadora y la formación paga incluidas. “Empecé a tomar ese curso y me encantó”. Su desempeño y ganas de desarrollarse destacaban, lo que le abrió una posibilidad que él consideraba impensada: le ofrecieron sumarse a una pasantía de tres meses para trabajar en IRSA en el equipo de análisis de datos. “Era como justo lo que estoy estudiando. Y encima, algo que me recontragustó, algo que conocí ahí, que después me dieron una pasantía para aprenderlo más a profundidad y encima, ir a una empresa real a trabajar de eso mismo. Yo no lo podía creer en ese momento.” Esa fue su primera experiencia profesional. ”Ahí yo aprendí muchísimas cosas. Me llevé muy bien con el equipo. Aprendí cómo funcionaba el real estate dentro de la empresa y encima logré terminar mi pasantía con un tablero que terminaron usándolo de verdad para trabajar”.</p>
+            <p style="margin:0 0 22px">La pasantía ya había terminado cuando recibió una llamada que lo sorprendió: se había abierto una posición y querían ofrecerle un puesto fijo. “Ese día yo me emocioné demasiado. Me parecía increíble porque venía de una época donde en el colegio no me había ido tan bien, porque me tardé en terminarlo, y venía como todo de golpe: la pasantía, la beca, haber terminado el secundario, haberme ido bien en la pasantía y que al poco tiempo me llamen nuevamente”. Recuerda que contestó rápido y con entusiasmo: “Sí, de una”. Al cortar, abrazó a su hermanita y no pudo contener el llanto.</p>
+            <p style="margin:0 0 22px">Desde entonces, Hernán trabaja en el área de sistemas como soporte técnico en el Alto Avellaneda. Aunque está atento a seguir construyendo su futuro: “me estoy por anotar para estudiar también, porque yo quiero crecer en la empresa y aunque no sea en esta empresa, si fuera en otra, me encantaría mejorar también mis propias habilidades”. Y destaca que su meta ahora es liderar un equipo algún día. "Me encantaría llegar a tener un equipo a cargo. Yo sé que igual tengo 21 años, pero es un sueño".</p>
+            <p style="margin:0 0 22px">El trabajo también transformó su vida familiar. "Vivimos en el Bajo Flores en una zona muy complicada. Que yo haya logrado conseguir este trabajo con este sueldo nos viene re bien, a mí y a mi familia, para poder mejorarnos, hoy nos sentimos más seguros". Sus ingresos ayudan al hogar y cuenta que con su mamá ya están ahorrando para mudarse a un barrio más tranquilo.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <sc-if value="{{ esMorena }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">Valorar el recorrido para llegar al primer empleo</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-morena.png" alt="Morena" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Ahora siento que cambió mi mirada, que voy a poder llegar a trabajar de lo que yo quiera</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Morena tenía miedo de no encontrar trabajo. "Antes tenía una mirada de decir, me va a costar mucho encontrar mi primer trabajo," recuerda. No tenía muchas referencias cercanas para saber cómo se hacía ese camino de salir del secundario para adentrarse al mundo laboral. Se recuerda como “una persona tímida, que no tomaba tanto la iniciativa y esperaba que el otro proponga”.</p>
+            <p style="margin:0 0 22px">Cuando terminó el secundario, empezó a buscar cómo seguir. Estaba explorando qué cosas le interesaban, cuando en las redes sociales encontró una publicación que convocaba cursos gratuitos en Puerta 18. Decidió anotarse en los que fueron sus primeros cursos de tecnología, primero de experiencia de usuario y después de diseño gráfico. Pero destaca que estar en la organización no solo la motivó desde lo técnico sino desde el sentirse parte: "era un espacio seguro, uno puede ser tal cual es, no hace falta ser alguien distinto".</p>
+            <p style="margin:0 0 22px">El primer gran cambio llegó con el trabajo final del curso de diseño gráfico. "Me costaba mucho hacer las presentaciones, siempre me ponía muy nerviosa, me olvidaba de las cosas que tenía que decir". Algo en ese curso cambió en ella: "crecí un montón en el aspecto técnico y sobre todo personal. Desarrollé más mi personalidad, la confianza en mí misma." Recuerda que el trabajo final de ese curso tomó la delantera presentando su propuesta y defendiéndola ante sus compañeros.</p>
+            <p style="margin:0 0 22px">Morena había empezado sus estudios universitarios en Comunicación, y en el camino se pasó a marketing y administración. En ese proceso, se anotó con un curso que incluía formación en contabilidad y excel. Ese programa cerraba con una pasantía profesional de tres meses, y a ella le tocó hacerla en PwC.</p>
+            <p style="margin:0 0 22px">Morena destaca su recorrido y las oportunidades que tuvo para acceder a esa primera experiencia profesional. “Si bien no contábamos con experiencia previa, sumaba mucho los cursos que hacíamos a la hora de postularnos un trabajo porque adquirimos un montón de habilidades técnicas. Y blandas como el trabajo en equipo, el compromiso, la responsabilidad. O el armado de CV o usar LinkedIn.”</p>
+            <p style="margin:0 0 22px">Antes del cierre de esa pasantía, tuvo la posibilidad de sumarse a un nuevo programa de prácticas laborales con un acompañamiento semanal. Desde la organización la alentaron a sumarse "es una oportunidad que te va a servir para el futuro”. Sin embargo, se tomó unos días para pensarlo. Morena era la primera de su familia en llegar a la universidad. "A mí me dieron la posibilidad de estudiar y enfocarme en eso, una oportunidad que mis padres no tuvieron" dice. Hablando con ellos sobre esta oportunidad, la animaron a avanzar con la condición de que no dejara sus estudios.</p>
+            <p style="margin:0 0 22px">Desde entonces trabaja en IRSA, como asistente del área de gestión de recursos de terceros. Allí da soporte en la gestión de la publicidad de los shoppings. Está aprendiendo a usar nuevas herramientas y conociendo mejor del negocio. “Antes estaba más enfocada en conseguir un trabajo más relacionado con marketing pero a raíz de esta experiencia y descubrir el área y lo que hace, me gustaría más de ahora en más enfocarme en lo que es análisis de datos”.</p>
+            <p style="margin:0 0 22px">Hoy esa mirada que la angustiaba cambió por completo. "Ahora siento que cambió mi mirada, que voy a poder llegar a trabajar de lo que yo quiera". Para describir todo el camino, usa la imagen de una escalera: "me imagino como una escalera, y hoy, mirando para atrás, cuatro años atrás no me hubiese imaginado, ni un mínimo, estar adonde estoy hoy. Todavía no lo veo, porque siento que me falta un montón, pero poder mirar para atrás y decir, guau, todo lo que recorrí y todo lo que hice para estar acá, para mí eso ya es un logro" agrega.</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <sc-if value="{{ esMatias }}" hint-placeholder-val="{{ false }}">
+        <article style="max-width:1000px; margin:0 auto; padding:0 32px 72px">
+          <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(38px,5.2vw,72px); line-height:0.92; text-transform:uppercase; color:#002257; margin:20px 0 24px; text-wrap:pretty">Dos mundos que terminaron por encontrarse</h1>
+          <div data-r="side" style="display:grid; grid-template-columns:minmax(0,320px) minmax(0,1fr); gap:52px; align-items:start; margin:34px 0 0">
+            <div style="position:sticky; top:24px; display:flex; flex-direction:column; gap:26px">
+              <img src="assets/retrato-matias.png" alt="Matías" style="width:100%; aspect-ratio:3/4; object-fit:cover; border-radius:16px; display:block">
+              <blockquote style="margin:0; padding-left:18px; border-left:4px solid #FFC955">
+                <p style="font-family:'League Gothic', sans-serif; font-size:clamp(22px,2.1vw,28px); line-height:1.1; text-transform:uppercase; color:#00427C; margin:0">Recorridos que parecían paralelos terminaron combinándose</p>
+              </blockquote>
+            </div>
+            <div>
+              <div style="max-width:680px; font-size:15px; line-height:1.78; color:rgba(0,34,87,0.85)">
+            <p style="margin:0 0 22px">Matías comenzó sus estudios en la carrera de psicología a finalizar el secundario, al tiempo que trabajaba lejos de su casa armando y repartiendo pedidos. Le demandaba todo el día trasladarse, teniendo que combinar tren y colectivo. "Apenas me quedaba tiempo para estudiar, quedaba re cansado y llegaba re tarde a mi casa". Un día se despertó y reflexionó: "no quiero algo así para mi vida, un laburo que pagaba poco y tener que renegar con el viaje un montón".</p>
+            <p style="margin:0 0 22px">Así empezó una búsqueda que le permitiera desarrollarse reduciendo sus horas de viaje: empezó a dar clases particulares, hizo algunos virtuales. En ese proceso, encontró la Fundación Formar para un curso de programación en el turno noche. Matías se puso muy contento cuando lo aceptaron, era una gran oportunidad. “Me acuerdo de que me dije voy a hacer lo mejor posible. Con el tiempo, me di cuenta de que estaba realmente bueno el curso: los contenidos y cómo lo explicaban y todo, te daban también material.”</p>
+            <p style="margin:0 0 22px">Tenía clases teóricas y prácticas donde aprendían sobre tecnologías específicas que se usan en las empresas. Además, cursaba un taller de habilidades blandas cada dos semanas. Ahí trabajaba cómo armar el currículum, optimizar el LinkedIn, simulacros de entrevista y comunicación asertiva para trabajar con equipos y jefes. También como se sentía, proyección de metas y acompañamiento al proceso. "Poner en palabras un montón de cosas que a uno le pasan y no las suele decir, o escuchar a un compañero al que le pasa algo parecido y ver que estamos en la misma, esos espacios estaban muy buenos para mí" comparte.</p>
+            <p style="margin:0 0 22px">Después de la formación, fue invitado a participar de una pasantía remunerada de tres meses. “Ahí estuve laburando en dos proyectos. Me dio una experiencia real que. No es lo mismo, obviamente, estar haciendo un proyecto, solo para el curso que hacerlo con compañeros y lo que eso implica. También poder trabajar con ellos es algo que está bueno”. El trabajo en equipo excedió el espacio laboral, armando un proyecto de videojuego que lo impulsa por interés en sus tiempos libres.</p>
+            <p style="margin:0 0 22px">Un día viendo las redes en el tren, encontró una búsqueda de trabajo que le llamó la atención: era para el desarrollo de un producto de salud mental. “Es difícil conseguir trabajo y más en este contexto. Pero la organización me había ayudado a identificar mis fortalezas y a trabajar las debilidades. Por ejemplo, te ayudan mucho a cómo encarar las entrevistas, cómo te presentas. Da herramientas que apuntan siempre a mejorar la autoconfianza, la autoestima" dice. Después de varias entrevistas, consiguió la posición: “hablé bastante y dije bien las cosas. Estaba nervioso pero sabía qué tenía que hacer, cómo encararlo... y quedaron bastante interesados en mi perfil, que es como una mezcla de psicología y de programación”. Recorridos que parecían paralelos terminaron combinándose y poniéndose en valor en esta oportunidad.</p>
+            <p style="margin:0 0 22px">Matías es el mayor de cuatro hermanos, hijo de dos docentes jubilados. "Muchos universitarios no hay en mi familia, soy como el primero que transita un camino así. Es como un montón" dice. Hoy trabaja en la startup y se imagina un futuro sin tener que renegar: "me imagino tranquilo, laburando de programador, con más conocimiento, y bueno, obviamente cobrando mejor también, pero no quiero renegar, quiero tener un buen ambiente laboral".</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </sc-if>
+
+      <section style="background:#F0F0E7; padding:22px 32px 26px; border-top:1px solid rgba(0,34,87,0.14)">
+        <div style="max-width:1000px; margin:0 auto">
+          <div style="font-size:11px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#005794; margin-bottom:10px">Más historias</div>
+          <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:2px 36px">
+            <a href="#historia/alina" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">Animarse a preguntar puede abrir oportunidades <span style="color:rgba(0,34,87,0.45)">· Alina</span></a>
+            <a href="#historia/kevin" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">Construir un proyecto de vida a medida <span style="color:rgba(0,34,87,0.45)">· Kevin</span></a>
+            <a href="#historia/jimena" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">Comunidades que sostienen las trayectorias <span style="color:rgba(0,34,87,0.45)">· Jimena</span></a>
+            <a href="#historia/florencia" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">De necesitar una referente a convertirse en una <span style="color:rgba(0,34,87,0.45)">· Florencia</span></a>
+            <a href="#historia/nayla" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">La formalidad laboral para la estabilidad <span style="color:rgba(0,34,87,0.45)">· Nayla</span></a>
+            <a href="#historia/romina" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">Salir de la zona de confort profesional <span style="color:rgba(0,34,87,0.45)">· Romina</span></a>
+            <a href="#historia/hernan" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">Siempre se puede aprender lo que hace falta <span style="color:rgba(0,34,87,0.45)">· Hernán</span></a>
+            <a href="#historia/morena" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">Valorar el recorrido para llegar al primer empleo <span style="color:rgba(0,34,87,0.45)">· Morena</span></a>
+            <a href="#historia/matias" style="display:block; padding:6px 0; font-size:13.5px; line-height:1.4; color:#002257" style-hover="color:#005794">Dos mundos que terminaron por encontrarse <span style="color:rgba(0,34,87,0.45)">· Matías</span></a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ verOrganizacion }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <header style="background:#002257; padding:18px 32px">
+        <div style="max-width:1140px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:24px">
+          <img src="assets/empower-white.png" alt="EMpower" style="height: 50px; width: 126px; display: block">
+          <a href="#organizaciones" style="font-size:13.5px; font-weight:600; color:rgba(255,255,255,0.85)" style-hover="color:#FFC955">← Volver a la Comunidad de Práctica</a>
+        </div>
+      </header>
+
+      <sc-if value="{{ esReciduca }}" hint-placeholder-val="{{ false }}">
+        <div data-r="side" style="max-width:1140px; margin:0 auto; padding:52px 32px 80px; display:grid; grid-template-columns:288px minmax(0,1fr); gap:64px; align-items:start">
+
+          <aside style="position:sticky; top:24px; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#ffffff; padding:28px 26px 30px">
+            <div style="display:flex; align-items:center; justify-content:center; height:72px; margin-bottom:26px">
+              <img src="assets/org-reciduca.png" alt="Fundación Reciduca" style="max-width:100%; max-height:72px; object-fit:contain">
+            </div>
+            
+            
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Web y redes</div><div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://www.fundacionreciduca.org.ar" target="_blank" rel="noopener">fundacionreciduca.org.ar</a>
+              <a href="https://www.instagram.com/fundacionreciduca/" target="_blank" rel="noopener">Instagram</a>
+              <a href="https://www.linkedin.com/company/fundacionreciduca/" target="_blank" rel="noopener">LinkedIn</a>
+            </div><div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Contactos</div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Jimena Llorente</span> <span style="color:rgba(0,34,87,0.5)">· Institucional</span><br>
+                <a href="mailto:jimena@fundacionreciduca.org.ar" style="font-size:12.5px; word-break:break-all">jimena@fundacionreciduca.org.ar</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Melisa Massinelli</span> <span style="color:rgba(0,34,87,0.5)">· Educación</span><br>
+                <a href="mailto:educacion@fundacionreciduca.org.ar" style="font-size:12.5px; word-break:break-all">educacion@fundacionreciduca.org.ar</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Matías Cano</span> <span style="color:rgba(0,34,87,0.5)">· Egresados y empleo</span><br>
+                <a href="mailto:matias@fundacionreciduca.org.ar" style="font-size:12.5px; word-break:break-all">matias@fundacionreciduca.org.ar</a>
+              </div>
+            </div>
+
+            </div>
+          <div>
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Fotos</div>
+              <img src="assets/foto-reciduca.jpg" alt="Fundación Reciduca" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block">
+            </div>
+          </aside><article>
+            <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(46px,6vw,80px); line-height:0.9; text-transform:uppercase; color:#002257; margin:0 0 22px">Fundación Reciduca</h1>
+
+            <p style="font-size: 19px; line-height: 1.7; color: rgba(0,34,87,0.85); margin: 0 0 52px; max-width: 640px; text-wrap: pretty; width: 626px; height: 128px">Acompaña a jóvenes de 16 a 24 años en situación de vulnerabilidad socioeconómica a finalizar sus estudios secundarios, ampliar sus oportunidades de empleo y promover el cuidado del medio ambiente. En 24 años, más de 13.000 jóvenes participaron de sus programas.</p>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Ejes de trabajo</div>
+            <div data-r="three" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">1</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Acompañamiento personalizado a estudiantes de los últimos dos años del secundario, en 38 escuelas de 22 localidades del AMBA.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">2</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Inserción laboral, becas para estudios superiores y cursos de formación profesional a través de su comunidad de egresados.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">3</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Reciclado, recolección de aceite vegetal usado, invernadero hidropónico y huerta. Lo recaudado financia el fondo de becas.</p>
+              </div>
+            </div>
+
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Población destinataria</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Jóvenes de 15 a 24 años en situación de vulnerabilidad socioeconómica.</p>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Dónde</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">21 localidades del AMBA, con programas virtuales y presenciales. Entre otras: CABA, La Plata, Pilar, San Fernando, San Martín, Morón, Merlo, Zárate.</p>
+              </div>
+            </div>
+
+
+            <div style="margin-bottom:46px">
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin-bottom:16px">Números de impacto</div>
+              <div data-r="four" style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:22px">
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">13.000</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">jóvenes participaron de sus programas</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">82%</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">se gradúa del secundario</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">79%</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">consiguió su primer empleo</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">123</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">becas otorgadas en 2025</div>
+                </div>
+              </div>
+            </div>
+
+          </article>
+
+          
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ esChicas }}" hint-placeholder-val="{{ false }}">
+        <div data-r="side" style="max-width:1140px; margin:0 auto; padding:52px 32px 80px; display:grid; grid-template-columns:288px minmax(0,1fr); gap:64px; align-items:start">
+
+          <aside style="position:sticky; top:24px; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#ffffff; padding:28px 26px 30px">
+            <div style="display:flex; align-items:center; justify-content:center; height:72px; margin-bottom:26px">
+              <img src="assets/org-chicas-en-tecnologia.png" alt="Chicas en Tecnología" style="max-width:100%; max-height:72px; object-fit:contain">
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Web y redes</div>
+            <div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://www.chicasentecnologia.org" target="_blank" rel="noopener" style="word-break:break-word">chicasentecnologia.org</a>
+              <a href="https://www.instagram.com/chicasentec/" target="_blank" rel="noopener" style="word-break:break-word">Instagram</a>
+              <a href="https://www.linkedin.com/company/chicasentecnologia/" target="_blank" rel="noopener" style="word-break:break-word">LinkedIn</a>
+              <a href="https://www.facebook.com/chicasentecnologia" target="_blank" rel="noopener" style="word-break:break-word">Facebook</a>
+              <a href="https://www.tiktok.com/@chicasentec" target="_blank" rel="noopener" style="word-break:break-word">TikTok</a>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Contactos</div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">María Paz Ramis</span> <span style="color:rgba(0,34,87,0.5)">· Institucional</span><br>
+                <a href="mailto:pramis@chicasentecnologia.org" style="font-size:12.5px; word-break:break-all">pramis@chicasentecnologia.org</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Noelia Vega</span> <span style="color:rgba(0,34,87,0.5)">· Programas</span><br>
+                <a href="mailto:nvega@chicasentecnologia.org" style="font-size:12.5px; word-break:break-all">nvega@chicasentecnologia.org</a>
+              </div>
+            </div>
+
+            </div>
+          <div>
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Fotos</div>
+              <div style="display:flex; flex-direction:column; gap:8px">
+              <img src="assets/foto-chicas-en-tecnologia.jpg" alt="Chicas en Tecnología" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block">
+              </div>
+            </div>
+          </aside><article>
+            <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(46px,6vw,80px); line-height:0.9; text-transform:uppercase; color:#002257; margin:0 0 22px">Chicas en Tecnología</h1>
+
+            <p style="font-size:19px; line-height:1.7; color:rgba(0,34,87,0.85); margin:0 0 52px; max-width:640px; text-wrap:pretty">Organización sin fines de lucro que trabaja para reducir la brecha de género en tecnología en Argentina y América Latina. Acompaña a jóvenes de 13 a 23 años en un recorrido progresivo: acercarlas al mundo STEM, fortalecer sus habilidades técnicas, socioemocionales y de liderazgo, y conectarlas con oportunidades académicas, profesionales y de participación pública.</p>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">El modelo CET</div>
+            <div data-r="three" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">1</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Charlas, eventos, webinars, experiencias introductorias y encuentros con referentes que despiertan curiosidad y desafían estereotipos. Cerca del 90% manifiesta interés en seguir explorando trayectorias STEM.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">2</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Laboratorios, clubes, mentorías y proyectos colaborativos. La Comunidad CET reúne a más de 8.000 jóvenes y 150 embajadoras.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">3</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Programas de empleabilidad, emprendedurismo, becas, formación técnica avanzada y espacios de participación pública.</p>
+              </div>
+            </div>
+
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:40px">
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Población destinataria</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Jóvenes de 13 a 23 años que se identifican con el género femenino, en toda su diversidad, con prioridad en territorios con menor acceso a oportunidades STEM.</p>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Dónde</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Presencial en Buenos Aires, Córdoba y Santa Fe. De forma virtual, en toda Argentina y en países de América Latina, con foco en México, Colombia, Chile, Uruguay y Perú.</p>
+              </div>
+            </div>
+
+
+            <div style="margin-bottom:46px">
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin-bottom:16px">Números de impacto</div>
+              <div data-r="four" style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:22px">
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">20.000</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">jóvenes participaron en más de 10 años</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">8.000</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">jóvenes en la Comunidad CET</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">93%</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">alcanzó o superó sus objetivos de desarrollo personal</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">50%</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">accedió a empleos u oportunidades profesionales</div>
+                </div>
+              </div>
+            </div>
+
+          </article>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ esCultura }}" hint-placeholder-val="{{ false }}">
+        <div data-r="side" style="max-width:1140px; margin:0 auto; padding:52px 32px 80px; display:grid; grid-template-columns:288px minmax(0,1fr); gap:64px; align-items:start">
+
+          <aside style="position:sticky; top:24px; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#ffffff; padding:28px 26px 30px">
+            <div style="display:flex; align-items:center; justify-content:center; height:72px; margin-bottom:26px">
+              <img src="assets/org-cultura-de-trabajo.png" alt="Fundación Cultura de Trabajo" style="max-width:100%; max-height:72px; object-fit:contain">
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Web y redes</div>
+            <div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://www.culturadetrabajo.org.ar/" target="_blank" rel="noopener" style="word-break:break-word">culturadetrabajo.org.ar</a>
+              <a href="https://www.instagram.com/culturadetrabajo/" target="_blank" rel="noopener" style="word-break:break-word">Instagram</a>
+              <a href="https://www.linkedin.com/company/cultura-de-trabajo/" target="_blank" rel="noopener" style="word-break:break-word">LinkedIn</a>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Más material</div>
+            <div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://www.culturadetrabajo.org.ar/_files/ugd/178116_9e4b44e48b5c44068f0784fafd5b5377.pdf" target="_blank" rel="noopener" style="word-break:break-word">Reporte de actividades 2025</a>
+              <a href="https://www.culturadetrabajo.org.ar/copia-de-medios" target="_blank" rel="noopener" style="word-break:break-word">La fundación en medios</a>
+            </div>
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Contactos</div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Alexandra Carballo</span> <span style="color:rgba(0,34,87,0.5)">· Institucional</span><br>
+                <a href="mailto:fundacion@culturadetrabajo.org.ar" style="font-size:12.5px; word-break:break-all">fundacion@culturadetrabajo.org.ar</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Federico Frias</span> <span style="color:rgba(0,34,87,0.5)">· Programas</span><br>
+                <a href="mailto:busquedas@culturadetrabajo.org.ar" style="font-size:12.5px; word-break:break-all">busquedas@culturadetrabajo.org.ar</a>
+              </div>
+            </div>
+
+            </div>
+          <div>
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Fotos</div>
+              <div style="display:flex; flex-direction:column; gap:8px">
+              <img src="assets/foto-cultura-de-trabajo.jpeg" alt="Fundación Cultura de Trabajo" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block">
+              </div>
+            </div>
+          </aside><article>
+            <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(46px,6vw,80px); line-height:0.9; text-transform:uppercase; color:#002257; margin:0 0 22px">Fundación Cultura de Trabajo</h1>
+
+            <p style="font-size:19px; line-height:1.7; color:rgba(0,34,87,0.85); margin:0 0 52px; max-width:640px; text-wrap:pretty">Desde 2011 promueve la autonomía económica de personas en situación de vulnerabilidad mediante programas gratuitos de formación, empleabilidad e inclusión laboral, con un enfoque centrado en la dignidad, la igualdad de oportunidades y la generación sostenible de ingresos.</p>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Líneas de trabajo</div>
+            <div data-r="three" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">1</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Programas que construyen puentes entre el talento y las oportunidades de empleo, en articulación con empresas, organismos públicos y organizaciones sociales.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">2</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Formación en oficios y competencias para el empleo de jóvenes y personas adultas, y promoción de su participación en ocupaciones tradicionalmente masculinizadas.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">3</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Desarrollo de habilidades socioemocionales, orientación ocupacional y acompañamiento para el acceso al trabajo y a medios de vida sostenibles.</p>
+              </div>
+            </div>
+
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:40px">
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Población destinataria</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Personas en situación de vulnerabilidad socioeconómica con barreras para acceder al empleo formal, con foco en mujeres y jóvenes en transición al empleo.</p>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Dónde</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Alcance nacional. Las actividades presenciales se concentran en CABA y AMBA, en articulación con gobiernos locales, organizaciones sociales, instituciones educativas y empresas. Las capacitaciones y talleres virtuales llegan a distintas provincias.</p>
+              </div>
+            </div>
+
+
+            <div style="margin-bottom:46px">
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin-bottom:16px">Números de impacto</div>
+              <div data-r="four" style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:22px">
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">2011</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">año de fundación</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">2.950</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">participantes entrevistados desde 2016</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">$930M</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">en ingresos generados a través de sus programas</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">615</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">organizaciones y organismos en su red</div>
+                </div>
+              </div>
+            </div>
+
+          </article>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ esEnsena }}" hint-placeholder-val="{{ false }}">
+        <div data-r="side" style="max-width:1140px; margin:0 auto; padding:52px 32px 80px; display:grid; grid-template-columns:288px minmax(0,1fr); gap:64px; align-items:start">
+
+          <aside style="position:sticky; top:24px; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#ffffff; padding:28px 26px 30px">
+            <div style="display:flex; align-items:center; justify-content:center; height:72px; margin-bottom:26px">
+              <img src="assets/org-ensena-argentina.jpeg" alt="Enseñá por Argentina" style="max-width:100%; max-height:72px; object-fit:contain">
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Web y redes</div>
+            <div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://www.ensenaporargentina.org" target="_blank" rel="noopener" style="word-break:break-word">ensenaporargentina.org</a>
+              <a href="https://www.instagram.com/ensenaxargentina/" target="_blank" rel="noopener" style="word-break:break-word">Instagram</a>
+              <a href="https://www.linkedin.com/company/ensenaxargentina" target="_blank" rel="noopener" style="word-break:break-word">LinkedIn</a>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Contactos</div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Sara Argañaraz</span> <span style="color:rgba(0,34,87,0.5)">· Institucional</span><br>
+                <a href="mailto:sara.arganaraz@ensenaporargentina.org" style="font-size:12.5px; word-break:break-all">sara.arganaraz@ensenaporargentina.org</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Inés Pasman</span> <span style="color:rgba(0,34,87,0.5)">· Programas</span><br>
+                <a href="mailto:inespasman@ensenaporargentina.org" style="font-size:12.5px; word-break:break-all">inespasman@ensenaporargentina.org</a>
+              </div>
+            </div>
+
+            </div>
+          <div>
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Fotos</div>
+              <div style="display:flex; flex-direction:column; gap:8px">
+              <img src="assets/foto-ensena-argentina.jpg" alt="Enseñá por Argentina" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block">
+              </div>
+            </div>
+          </aside><article>
+            <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(46px,6vw,80px); line-height:0.9; text-transform:uppercase; color:#002257; margin:0 0 22px">Enseñá por Argentina</h1>
+
+            <p style="font-size:19px; line-height:1.7; color:rgba(0,34,87,0.85); margin:0 0 24px; max-width:640px; text-wrap:pretty">Enseñá por Argentina es una organización sin fines de lucro que impulsa la transformación del sistema educativo a través del liderazgo.</p>
+            <p style="font-size:16px; line-height:1.7; color:rgba(0,34,87,0.78); margin:0 0 52px; max-width:640px; text-wrap:pretty">Desde hace más de 15 años, formamos y acompañamos a personas que eligen enseñar en contextos desafiantes, y que, al hacerlo, se convierten en agentes de cambio. Lo que comienza en el aula junto a estudiantes, se proyecta en las comunidades, en políticas públicas y en soluciones colectivas.</p>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Líneas de trabajo</div>
+            <div data-r="three" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">1</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Convoca y forma a Profesionales de Enseñá por Argentina (PExAs) y Alumni, jóvenes universitarios con compromiso social que lideran procesos de cambio en las aulas y en la comunidad.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">2</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Fortalece a docentes y directivos del sistema público con herramientas de innovación pedagógica, alfabetización digital y metodologías activas.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">3</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Alcanza de forma indirecta a la comunidad educativa en su conjunto, articulando con familias y redes locales para dinamizar el desarrollo sociocomunitario de cada territorio.</p>
+              </div>
+            </div>
+
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:40px">
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Población destinataria</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Profesionales de 22 a 40 años que lideran procesos de cambio en el aula, docentes y directivos de 25 a 65 años del sistema público en contextos de vulnerabilidad, y estudiantes de 6 a 18 años de comunidades prioritarias junto a sus familias y redes locales.</p>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Dónde</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Modalidades mixtas, virtuales y presenciales. Buenos Aires, Jujuy, Salta, Tucumán, Catamarca, Chaco, Santa Fe, Mendoza, Córdoba, Neuquén y Río Negro.</p>
+              </div>
+            </div>
+
+            <div style="margin-bottom:46px">
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin-bottom:16px">Números de impacto</div>
+              <div data-r="four" style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:22px">
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">11</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">provincias alcanzadas</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">26.000</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">estudiantes acompañados</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">327</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">escuelas</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">270</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">docentes</div>
+                </div>
+              </div>
+            </div>
+
+          </article>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ esFormar }}" hint-placeholder-val="{{ false }}">
+        <div data-r="side" style="max-width:1140px; margin:0 auto; padding:52px 32px 80px; display:grid; grid-template-columns:288px minmax(0,1fr); gap:64px; align-items:start">
+
+          <aside style="position:sticky; top:24px; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#ffffff; padding:28px 26px 30px">
+            <div style="display:flex; align-items:center; justify-content:center; height:72px; margin-bottom:26px">
+              <img src="assets/org-formar.png" alt="Fundación Formar" style="max-width:100%; max-height:72px; object-fit:contain">
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Web y redes</div>
+            <div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://fundacionformar.ar/" target="_blank" rel="noopener" style="word-break:break-word">fundacionformar.ar</a>
+              <a href="https://forit.ar/" target="_blank" rel="noopener" style="word-break:break-word">forit.ar</a>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Contactos</div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Victoria Lacroze</span> <span style="color:rgba(0,34,87,0.5)">· Institucional</span><br>
+                <a href="mailto:coordinacion@fundacionformar.ar" style="font-size:12.5px; word-break:break-all">coordinacion@fundacionformar.ar</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Victoria Fornieles</span> <span style="color:rgba(0,34,87,0.5)">· Programación</span><br>
+                <a href="mailto:programacion@fundacionformar.ar" style="font-size:12.5px; word-break:break-all">programacion@fundacionformar.ar</a>
+              </div>
+            </div>
+
+            </div>
+          <div>
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Fotos</div>
+              <div style="display:flex; flex-direction:column; gap:8px">
+              <img src="assets/foto-formar.jpeg" alt="Fundación Formar" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block">
+              </div>
+            </div>
+          </aside><article>
+            <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(46px,6vw,80px); line-height:0.9; text-transform:uppercase; color:#002257; margin:0 0 22px">Fundación Formar</h1>
+
+            <p style="font-size:19px; line-height:1.7; color:rgba(0,34,87,0.85); margin:0 0 52px; max-width:640px; text-wrap:pretty">Abre puertas donde otros ven barreras. Trabaja en la inclusión sociolaboral de personas en situación de vulnerabilidad, conectando actores, conocimientos y recursos, con estrategias de abordaje territorial adaptadas a cada barrio y comunidad.</p>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Programas</div>
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">1</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Acompaña a personas con un oficio o un emprendimiento en distintos barrios del conurbano: curaduría de productos, formalización (monotributo, bancarización) y oportunidades de comercialización con clientes que creen en el consumo responsable.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">2</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Promueve la inserción laboral en el sector IT mediante un ecosistema que combina formación técnica, desarrollo de habilidades blandas y experiencia profesional en su fábrica de software.</p>
+              </div>
+            </div>
+
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:40px">
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Población destinataria</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Emprendimientos: sin limitaciones de edad ni género. Academia ForIT: todas las edades y géneros. Software Factory: jóvenes de 18 a 24 años, sin limitaciones de género.</p>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Dónde</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Emprendimientos: foco principal en Bernal Oeste, también en Lanús y Pilar. Academia ForIT: virtual, abierta a participantes de todo el país. Software Factory: jóvenes que vivan en la provincia de Buenos Aires.</p>
+              </div>
+            </div>
+
+
+          </article>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ esPuerta18 }}" hint-placeholder-val="{{ false }}">
+        <div data-r="side" style="max-width:1140px; margin:0 auto; padding:52px 32px 80px; display:grid; grid-template-columns:288px minmax(0,1fr); gap:64px; align-items:start">
+
+          <aside style="position:sticky; top:24px; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#ffffff; padding:28px 26px 30px">
+            <div style="display:flex; align-items:center; justify-content:center; height:72px; margin-bottom:26px">
+              <img src="assets/org-puerta18.jpeg" alt="Fundación Puerta 18" style="max-width:100%; max-height:72px; object-fit:contain">
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Web y redes</div>
+            <div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://www.puerta18.org.ar" target="_blank" rel="noopener" style="word-break:break-word">puerta18.org.ar</a>
+              <a href="https://www.instagram.com/puerta18/" target="_blank" rel="noopener" style="word-break:break-word">Instagram</a>
+              <a href="mailto:info@puerta18.org.ar" style="word-break:break-word">info@puerta18.org.ar</a>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Contactos</div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Federico Waisbaum</span> <span style="color:rgba(0,34,87,0.5)">· Director</span><br>
+                <a href="mailto:federico@puerta18.org.ar" style="font-size:12.5px; word-break:break-all">federico@puerta18.org.ar</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Carolina Morán</span> <span style="color:rgba(0,34,87,0.5)">· Coordinadora</span><br>
+                <a href="mailto:carolina@puerta18.org.ar" style="font-size:12.5px; word-break:break-all">carolina@puerta18.org.ar</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Noelia Nuñez</span> <span style="color:rgba(0,34,87,0.5)">· Programas</span><br>
+                <a href="mailto:noelia@puerta18.org.ar" style="font-size:12.5px; word-break:break-all">noelia@puerta18.org.ar</a>
+              </div>
+            </div>
+
+            </div>
+          <div>
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Fotos</div>
+              <div style="display:flex; flex-direction:column; gap:8px">
+              <img src="assets/foto-puerta18.jpg" alt="Fundación Puerta 18" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block">
+              </div>
+            </div>
+          </aside><article>
+            <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(46px,6vw,80px); line-height:0.9; text-transform:uppercase; color:#002257; margin:0 0 22px">Fundación Puerta 18</h1>
+
+            <p style="font-size:19px; line-height:1.7; color:rgba(0,34,87,0.85); margin:0 0 52px; max-width:640px; text-wrap:pretty">Espacio gratuito de arte y tecnología para jóvenes de 13 a 24 años. Brinda un sistema de educación no formal, tecnológica, gratuita y abierta, centrado en los intereses de cada joven.</p>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Líneas de trabajo</div>
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">1</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Diseño gráfico, programación, robótica, videojuegos, fotografía, producción audiovisual y modelado 3D.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">2</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Fortalece las trayectorias formativas y la vinculación con el mundo del trabajo y la formación superior.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">3</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Con organizaciones, empresas y el sector público, ampliando oportunidades y construyendo redes de impacto colectivo.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">4</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Desarrollo socioemocional que promueve la autonomía, el pensamiento crítico, la creatividad y el trabajo en equipo.</p>
+              </div>
+            </div>
+
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:40px">
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Población destinataria</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Adolescentes y jóvenes de 13 a 24 años en contextos de vulnerabilidad social y económica, sin distinción de género.</p>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Dónde</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Presencial en la sede de Zelaya 3118, CABA, con jóvenes de distintos municipios del Gran Buenos Aires. El alcance se amplía al resto del país a través de becas de formación en alianza con instituciones educativas, articulaciones con organizaciones y empresas, y contenidos digitales.</p>
+              </div>
+            </div>
+
+
+            <div style="margin-bottom:46px">
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin-bottom:16px">Números de impacto</div>
+              <div data-r="four" style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:22px">
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">18</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">años de trayectoria</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">5.500</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">jóvenes acompañados en formación gratuita</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">350</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">se insertaron laboralmente en tecnología y creatividad</div>
+                </div>
+                <div>
+                  <div style="font-family:'League Gothic', sans-serif; font-size:42px; line-height:0.85; color:#E0A400">100</div>
+                  <div style="font-size:12.5px; line-height:1.4; color:rgba(0,34,87,0.7); margin-top:6px">jóvenes por día, en promedio, en la sede</div>
+                </div>
+              </div>
+            </div>
+
+          </article>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ esOficios }}" hint-placeholder-val="{{ false }}">
+        <div data-r="side" style="max-width:1140px; margin:0 auto; padding:52px 32px 80px; display:grid; grid-template-columns:288px minmax(0,1fr); gap:64px; align-items:start">
+
+          <aside style="position:sticky; top:24px; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#ffffff; padding:28px 26px 30px">
+            <div style="display:flex; align-items:center; justify-content:center; height:72px; margin-bottom:26px">
+              <img src="assets/org-oficios.png" alt="Fundación Oficios" style="max-width:100%; max-height:72px; object-fit:contain">
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Web y redes</div>
+            <div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://www.fundacionoficios.org.ar" target="_blank" rel="noopener" style="word-break:break-word">fundacionoficios.org.ar</a>
+              <a href="https://www.instagram.com/fundacionoficios/" target="_blank" rel="noopener" style="word-break:break-word">Instagram</a>
+              <a href="https://www.facebook.com/fundacionoficios" target="_blank" rel="noopener" style="word-break:break-word">Facebook</a>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Contactos</div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Wladimir Galán</span> <span style="color:rgba(0,34,87,0.5)">· Institucional</span><br>
+                <a href="mailto:wladimirgalan@fundacionoficios.org.ar" style="font-size:12.5px; word-break:break-all">wladimirgalan@fundacionoficios.org.ar</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Lucía Paz Lafarga</span> <span style="color:rgba(0,34,87,0.5)">· Programas</span><br>
+                <a href="mailto:lucialafarga@fundacionoficios.org.ar" style="font-size:12.5px; word-break:break-all">lucialafarga@fundacionoficios.org.ar</a>
+              </div>
+            </div>
+
+            </div>
+          <div>
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Fotos</div>
+              <div style="display:flex; flex-direction:column; gap:8px">
+              <img src="assets/foto-oficios.jpg" alt="Fundación Oficios" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block">
+              </div>
+            </div>
+          </aside><article>
+            <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(46px,6vw,80px); line-height:0.9; text-transform:uppercase; color:#002257; margin:0 0 22px">Fundación Oficios</h1>
+
+            <p style="font-size:19px; line-height:1.7; color:rgba(0,34,87,0.85); margin:0 0 52px; max-width:640px; text-wrap:pretty">Con más de 20 años de experiencia, diseña programas integrales que mejoran el encuentro entre la formación en oficios y las demandas del mundo del trabajo, con una mirada integral de cara a las demandas sociales y del mercado.</p>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Líneas de trabajo</div>
+            <div data-r="three" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">1</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Con aval provincial de Buenos Aires, lo que le permite administrar fondos públicos y participar de las mesas donde se discute la política educativa de adultos.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">2</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Además de la sede de Benavídez, articula con empresas, municipios e instituciones para acercar formación a más de 10 puntos del país.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">3</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">La intención de transferir su experiencia y metodología a otras instituciones que quieran replicarla.</p>
+              </div>
+            </div>
+
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:40px">
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Población destinataria</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Mujeres y hombres con ganas de progresar a través de la formación continua, para acceder a mejores empleos e ingresos más estables.</p>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Dónde</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Conurbano norte, con sede en Benavídez, y Barrio 31 (CABA). Ha realizado capacitaciones en más de 15 puntos distintos del país.</p>
+              </div>
+            </div>
+
+
+          </article>
+
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ esEmpujar }}" hint-placeholder-val="{{ false }}">
+        <div data-r="side" style="max-width:1140px; margin:0 auto; padding:52px 32px 80px; display:grid; grid-template-columns:288px minmax(0,1fr); gap:64px; align-items:start">
+
+          <aside style="position:sticky; top:24px; display:flex; flex-direction:column; gap:20px">
+            <div style="background:#ffffff; padding:28px 26px 30px">
+            <div style="display:flex; align-items:center; justify-content:center; height:72px; margin-bottom:26px">
+              <img src="assets/org-empujar.jpeg" alt="Fundación Empujar" style="max-width:100%; max-height:72px; object-fit:contain">
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Web y redes</div>
+            <div style="display:flex; flex-direction:column; gap:7px; font-size:13.5px; font-weight:600; margin-bottom:24px">
+              <a href="https://fundacionempujar.org/" target="_blank" rel="noopener" style="word-break:break-word">fundacionempujar.org</a>
+              <a href="https://www.instagram.com/programaempujar/" target="_blank" rel="noopener" style="word-break:break-word">Instagram</a>
+              <a href="https://www.linkedin.com/company/programa-empujar/" target="_blank" rel="noopener" style="word-break:break-word">LinkedIn</a>
+              <a href="https://www.youtube.com/channel/UCmeVxmSA-YrfKi1ARGZ-gnA" target="_blank" rel="noopener" style="word-break:break-word">YouTube</a>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Contactos</div>
+            <div style="display:flex; flex-direction:column; gap:10px">
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Carla Oliva</span> <span style="color:rgba(0,34,87,0.5)">· Coordinadora</span><br>
+                <a href="mailto:carla.oliva@fundacionempujar.org" style="font-size:12.5px; word-break:break-all">carla.oliva@fundacionempujar.org</a>
+              </div>
+              <div style="font-size:13.5px; line-height:1.4">
+                <span style="font-weight:700; color:#002257">Aldana Bravos</span> <span style="color:rgba(0,34,87,0.5)">· Coordinadora</span><br>
+                <a href="mailto:aldana.bravos@fundacionempujar.org" style="font-size:12.5px; word-break:break-all">aldana.bravos@fundacionempujar.org</a>
+              </div>
+            </div>
+
+            </div>
+          <div>
+              <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 10px">Fotos</div>
+              <div style="display:flex; flex-direction:column; gap:8px">
+              <img src="assets/foto-empujar.jpeg" alt="Fundación Empujar" style="width:100%; aspect-ratio:4/3; object-fit:cover; display:block">
+              </div>
+            </div>
+          </aside><article>
+            <h1 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(46px,6vw,80px); line-height:0.9; text-transform:uppercase; color:#002257; margin:0 0 22px">Fundación Empujar</h1>
+
+            <p style="font-size:19px; line-height:1.7; color:rgba(0,34,87,0.85); margin:0 0 52px; max-width:640px; text-wrap:pretty">Organización sin fines de lucro con ADN empresarial, nacida por iniciativa de un grupo de empresarios que decidieron generar una red comprometida con el ingreso de jóvenes de entornos vulnerables al universo del trabajo formal.</p>
+
+            <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Cómo trabaja</div>
+            <div data-r="three" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:32px; margin-bottom:54px">
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">1</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Acompaña a jóvenes de entornos vulnerables en su camino hacia el primer trabajo formal, con formación gratuita y herramientas concretas.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">2</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Empresarios, PYMES y grandes empresas, personas voluntarias y un equipo profesional que articula con escuelas, cámaras y otras organizaciones sociales.</p>
+              </div>
+              <div>
+                <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:1; color:#E0A400; margin:0 0 6px">3</div>
+                <p style="font-size:14.5px; line-height:1.65; color:rgba(0,34,87,0.75); margin:0">Procesos y sistemas auditados, y una gestión transparente reconocida legalmente en Argentina.</p>
+              </div>
+            </div>
+
+            <div data-r="two" style="display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:32px; margin-bottom:40px">
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Población destinataria</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">Jóvenes de 18 a 24 años en los programas de empleabilidad, y de 18 a 30 años en oficios y emprendimientos.</p>
+              </div>
+              <div>
+                <div style="font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#005794; margin:0 0 12px">Dónde</div>
+                <p style="font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.8); margin:0">CABA y AMBA, Rosario, Córdoba, Mendoza, San Juan y Neuquén.</p>
+              </div>
+            </div>
+
+
+          </article>
+
+        </div>
+      </sc-if>
+
+      <section style="background:#F0F0E7; padding:22px 32px 26px; border-top:1px solid rgba(0,34,87,0.14)">
+        <div style="max-width:1140px; margin:0 auto">
+          <div style="font-size:11px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#005794; margin-bottom:10px">Otras organizaciones socias</div>
+          <div data-r="four" style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:2px 32px">
+            <a href="#organizacion/chicas-en-tecnologia" style="display:block; padding:6px 0; font-size:13.5px; color:#002257" style-hover="color:#005794">Chicas en Tecnología</a>
+            <a href="#organizacion/cultura-de-trabajo" style="display:block; padding:6px 0; font-size:13.5px; color:#002257" style-hover="color:#005794">Cultura de Trabajo</a>
+            <a href="#organizacion/empujar" style="display:block; padding:6px 0; font-size:13.5px; color:#002257" style-hover="color:#005794">Fundación Empujar</a>
+            <a href="#organizacion/formar" style="display:block; padding:6px 0; font-size:13.5px; color:#002257" style-hover="color:#005794">Fundación Formar</a>
+            <a href="#organizacion/oficios" style="display:block; padding:6px 0; font-size:13.5px; color:#002257" style-hover="color:#005794">Fundación Oficios</a>
+            <a href="#organizacion/puerta18" style="display:block; padding:6px 0; font-size:13.5px; color:#002257" style-hover="color:#005794">Fundación Puerta 18</a>
+            <a href="#organizacion/reciduca" style="display:block; padding:6px 0; font-size:13.5px; color:#002257" style-hover="color:#005794">Fundación Reciduca</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ verHome }}" hint-placeholder-val="{{ true }}">
+    <div>
+  <header style="position:sticky; top:0; z-index:50; background:rgba(240,240,231,0.92); backdrop-filter:blur(10px); border-bottom:1px solid rgba(0,34,87,0.12)">
+    <div style="max-width:1240px; margin:0 auto; padding:14px 32px; display:flex; align-items:center; justify-content:space-between; gap:32px">
+      <a href="#top" style="display:flex; align-items:center; gap:14px; mix-blend-mode:multiply">
+        <img src="assets/empower-color.jpg" alt="EMpower" style="height: 50px; width: 126px; display: block">
+      </a>
+      <nav data-r="nav" style="display:flex; align-items:center; gap:28px; font-size:13.5px; font-weight:600; letter-spacing:0.02em">
+        <a href="#organizaciones" style="color:#002257" style-hover="color:#005794">Organizaciones</a>
+        <a href="#encuentros" style="color:#002257" style-hover="color:#005794">Agenda</a>
+        <a href="#materiales" style="color:#002257" style-hover="color:#005794">Materiales</a>
+        <a href="#historias" style="color:#002257" style-hover="color:#005794">Historias</a>
+        <a href="#empower" style="display:inline-block; background:#002257; color:#F0F0E7; padding:10px 18px; border-radius:999px" style-hover="background:#005794; color:#ffffff">Sobre EMpower</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="top" style="position:relative; min-height:520px; display:flex; align-items:flex-end; background:#002257; overflow:hidden">
+    <img src="assets/hero.jpg" alt="Encuentro de la Comunidad de Práctica" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%">
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,34,87,0.72) 0%, rgba(0,34,87,0.82) 45%, rgba(0,34,87,0.95) 100%)"></div>
+    <div data-r="hero" style="position: relative; width:100%; max-width: 1240px; margin: 0 auto; padding: 96px 32px 56px; display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,0.85fr); gap: 56px; align-items: flex-end">
+      <div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:22px">
+          <span style="display:block; width:34px; height:3px; background:#FFC955"></span>
+          <span style="font-size:12.5px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#FFC955">EMpower Argentina</span>
+        </div><h1 style="font-family: 'League Gothic', 'Open Sans', sans-serif; font-weight: 400; font-size: clamp(64px,9vw,148px); line-height: 0.86; letter-spacing: 0.005em; text-transform: uppercase; color: #ffffff; margin: 0">Comunidad<br>de Práctica</h1>
+        
+      </div>
+      <div style="padding-bottom:14px">
+        
+        
+      <p style="font-size: 18px; line-height: 1.65; color: rgba(255,255,255,0.9); margin: 0 0 28px; text-wrap: pretty">Espacio de aprendizaje, intercambio y colaboración que reúne a organizaciones socias de EMpower en Argentina con el objetivo de fortalecer sus capacidades, compartir experiencias y promover la construcción colectiva de conocimientos.</p></div>
+      <sc-if value="{{ mostrarCifras }}" hint-placeholder-val="{{ true }}">
+        <div style="grid-column:span 2; display:flex; flex-wrap:wrap; gap:14px 40px; margin-top:26px; padding-top:22px; border-top:1px solid rgba(255,255,255,0.22)">
+          <div style="display:flex; align-items:baseline; gap:9px">
+            <span style="font-family:'League Gothic', sans-serif; font-size:34px; line-height:1; color:#FFC955">8</span>
+            <span style="font-size:13px; font-weight:600; color:rgba(255,255,255,0.85)">organizaciones socias</span>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:9px">
+            <span style="font-family:'League Gothic', sans-serif; font-size:34px; line-height:1; color:#FFC955">5</span>
+            <span style="font-size:13px; font-weight:600; color:rgba(255,255,255,0.85)">organizaciones aliadas</span>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:9px">
+            <span style="font-family:'League Gothic', sans-serif; font-size:34px; line-height:1; color:#FFC955">+6.550</span>
+            <span style="font-size:13px; font-weight:600; color:rgba(255,255,255,0.85)">jóvenes capacitados</span>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:9px">
+            <span style="font-family:'League Gothic', sans-serif; font-size:34px; line-height:1; color:#FFC955">+4.000</span>
+            <span style="font-size:13px; font-weight:600; color:rgba(255,255,255,0.85)">jóvenes trabajando</span>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section id="organizaciones" style="background:#F0F0E7; padding:48px 32px 64px">
+    <div style="max-width:1240px; margin:0 auto">
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 30px">
+        <div>
+          <span style="font-size:12.5px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#005794">Quiénes somos</span>
+          <h2 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(44px,5.5vw,80px); line-height:0.92; text-transform:uppercase; color:#002257; margin:14px 0 0">Organizaciones socias</h2>
+        </div>
+        <p style="max-width:420px; font-size:16px; line-height:1.65; color:rgba(0,34,87,0.72); margin:0; text-wrap:pretty">Ocho organizaciones argentinas que trabajan con jóvenes en educación, salud y bienestar económico, y que sostienen la Comunidad de Práctica encuentro a encuentro.</p>
+      </div>
+
+      <div data-r="four" style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px">
+        <a href="#organizacion/chicas-en-tecnologia" style="display:flex; align-items:center; gap:14px; background:#ffffff; border:1px solid rgba(0,34,87,0.09); border-radius:12px; padding:12px 16px; transition:transform 180ms ease, box-shadow 180ms ease" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,34,87,0.12)">
+          <div style="flex:0 0 72px; height:44px; display:flex; align-items:center; justify-content:center"><img src="assets/org-chicas-en-tecnologia.png" alt="Chicas en Tecnología" style="max-height:44px; max-width:100%; object-fit:contain"></div>
+          <div style="font-size:14px; font-weight:700; color:#002257; line-height:1.3">Chicas en Tecnología</div>
+        </a>
+        <a href="#organizacion/cultura-de-trabajo" style="display:flex; align-items:center; gap:14px; background:#ffffff; border:1px solid rgba(0,34,87,0.09); border-radius:12px; padding:12px 16px; transition:transform 180ms ease, box-shadow 180ms ease" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,34,87,0.12)">
+          <div style="flex:0 0 72px; height:44px; display:flex; align-items:center; justify-content:center"><img src="assets/org-cultura-de-trabajo.png" alt="Cultura de Trabajo" style="max-height:44px; max-width:100%; object-fit:contain"></div>
+          <div style="font-size:14px; font-weight:700; color:#002257; line-height:1.3">Cultura de Trabajo</div>
+        </a>
+        <a href="#organizacion/ensena-por-argentina" style="display:flex; align-items:center; gap:14px; background:#ffffff; border:1px solid rgba(0,34,87,0.09); border-radius:12px; padding:12px 16px; transition:transform 180ms ease, box-shadow 180ms ease" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,34,87,0.12)">
+          <div style="flex:0 0 72px; height:44px; display:flex; align-items:center; justify-content:center"><img src="assets/org-ensena-argentina.jpeg" alt="Enseñá por Argentina" style="max-height:44px; max-width:100%; object-fit:contain"></div>
+          <div style="font-size:14px; font-weight:700; color:#002257; line-height:1.3">Enseñá por Argentina</div>
+        </a>
+        <a href="#organizacion/empujar" style="display:flex; align-items:center; gap:14px; background:#ffffff; border:1px solid rgba(0,34,87,0.09); border-radius:12px; padding:12px 16px; transition:transform 180ms ease, box-shadow 180ms ease" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,34,87,0.12)">
+          <div style="flex:0 0 72px; height:44px; display:flex; align-items:center; justify-content:center"><img src="assets/org-empujar.jpeg" alt="Fundación Empujar" style="max-height:44px; max-width:100%; object-fit:contain"></div>
+          <div style="font-size:14px; font-weight:700; color:#002257; line-height:1.3">Fundación Empujar</div>
+        </a>
+        <a href="#organizacion/formar" style="display:flex; align-items:center; gap:14px; background:#ffffff; border:1px solid rgba(0,34,87,0.09); border-radius:12px; padding:12px 16px; transition:transform 180ms ease, box-shadow 180ms ease" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,34,87,0.12)">
+          <div style="flex:0 0 72px; height:44px; display:flex; align-items:center; justify-content:center"><img src="assets/org-formar.png" alt="Fundación Formar" style="max-height:44px; max-width:100%; object-fit:contain"></div>
+          <div style="font-size:14px; font-weight:700; color:#002257; line-height:1.3">Fundación Formar</div>
+        </a>
+        <a href="#organizacion/oficios" style="display:flex; align-items:center; gap:14px; background:#ffffff; border:1px solid rgba(0,34,87,0.09); border-radius:12px; padding:12px 16px; transition:transform 180ms ease, box-shadow 180ms ease" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,34,87,0.12)">
+          <div style="flex:0 0 72px; height:44px; display:flex; align-items:center; justify-content:center"><img src="assets/org-oficios.png" alt="Fundación Oficios" style="max-height:44px; max-width:100%; object-fit:contain"></div>
+          <div style="font-size:14px; font-weight:700; color:#002257; line-height:1.3">Fundación Oficios</div>
+        </a>
+        <a href="#organizacion/puerta18" style="display:flex; align-items:center; gap:14px; background:#ffffff; border:1px solid rgba(0,34,87,0.09); border-radius:12px; padding:12px 16px; transition:transform 180ms ease, box-shadow 180ms ease" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,34,87,0.12)">
+          <div style="flex:0 0 72px; height:44px; display:flex; align-items:center; justify-content:center"><img src="assets/org-puerta18.jpeg" alt="Fundación Puerta 18" style="max-height:44px; max-width:100%; object-fit:contain"></div>
+          <div style="font-size:14px; font-weight:700; color:#002257; line-height:1.3">Fundación Puerta 18</div>
+        </a>
+        <a href="#organizacion/reciduca" style="display:flex; align-items:center; gap:14px; background:#ffffff; border:1px solid rgba(0,34,87,0.09); border-radius:12px; padding:12px 16px; transition:transform 180ms ease, box-shadow 180ms ease" style-hover="transform:translateY(-4px); box-shadow:0 16px 34px rgba(0,34,87,0.12)">
+          <div style="flex:0 0 72px; height:44px; display:flex; align-items:center; justify-content:center"><img src="assets/org-reciduca.png" alt="Fundación Reciduca" style="max-height:44px; max-width:100%; object-fit:contain"></div>
+          <div style="font-size:14px; font-weight:700; color:#002257; line-height:1.3">Fundación Reciduca</div>
+        </a>
+      </div>
+
+      <sc-if value="{{ mostrarAliadas }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:28px; padding-top:0">
+          <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:18px">
+            <h3 style="font-size:13px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#005794; margin:0">Organizaciones aliadas</h3>
+            <span style="flex:1; height:1px; background:rgba(0,34,87,0.12)"></span>
+          </div>
+          <div data-r="five" style="display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:12px">
+            <a href="https://www.cimientos.org/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid rgba(0,34,87,0.12); border-radius:10px; background:#ffffff" style-hover="border-color:rgba(0,34,87,0.28)">
+              <div style="flex:0 0 56px; height:34px; display:flex; align-items:center; justify-content:center"><img src="assets/org-cimientos.png" alt="Fundación Cimientos" style="max-height:34px; max-width:100%; object-fit:contain"></div>
+              <div style="font-size:12.5px; font-weight:600; color:rgba(0,34,87,0.85); line-height:1.3">Fundación Cimientos</div>
+            </a>
+            <a href="https://www.compromiso.org/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid rgba(0,34,87,0.12); border-radius:10px; background:#ffffff" style-hover="border-color:rgba(0,34,87,0.28)">
+              <div style="flex:0 0 56px; height:34px; display:flex; align-items:center; justify-content:center"><img src="assets/org-compromiso.png" alt="Fundación Compromiso" style="max-height:34px; max-width:100%; object-fit:contain"></div>
+              <div style="font-size:12.5px; font-weight:600; color:rgba(0,34,87,0.85); line-height:1.3">Fundación Compromiso</div>
+            </a>
+            <a href="https://junior.org.ar/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid rgba(0,34,87,0.12); border-radius:10px; background:#ffffff" style-hover="border-color:rgba(0,34,87,0.28)">
+              <div style="flex:0 0 56px; height:34px; display:flex; align-items:center; justify-content:center"><img src="assets/org-junior.png" alt="Junior Achievement" style="max-height:34px; max-width:100%; object-fit:contain"></div>
+              <div style="font-size:12.5px; font-weight:600; color:rgba(0,34,87,0.85); line-height:1.3">Junior Achievement</div>
+            </a>
+            <a href="https://fundacionnordelta.org/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid rgba(0,34,87,0.12); border-radius:10px; background:#ffffff" style-hover="border-color:rgba(0,34,87,0.28)">
+              <div style="flex:0 0 56px; height:34px; display:flex; align-items:center; justify-content:center"><img src="assets/org-nordelta.png" alt="Fundación Nordelta" style="max-height:34px; max-width:100%; object-fit:contain"></div>
+              <div style="font-size:12.5px; font-weight:600; color:rgba(0,34,87,0.85); line-height:1.3">Fundación Nordelta</div>
+            </a>
+            <a href="https://www.pescar.org.ar/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; padding:10px 12px; border:1px solid rgba(0,34,87,0.12); border-radius:10px; background:#ffffff" style-hover="border-color:rgba(0,34,87,0.28)">
+              <div style="flex:0 0 56px; height:34px; display:flex; align-items:center; justify-content:center"><img src="assets/org-pescar.jpeg" alt="Fundación Pescar" style="max-height:34px; max-width:100%; object-fit:contain"></div>
+              <div style="font-size:12.5px; font-weight:600; color:rgba(0,34,87,0.85); line-height:1.3">Fundación Pescar</div>
+            </a>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  
+
+  <section id="encuentros" style="background:#ffffff; padding:52px 32px 60px">
+    <div style="max-width:1240px; margin:0 auto">
+      <div data-r="side" style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,0.85fr); gap:48px; align-items:center; margin-bottom:28px">
+      <div style="display:flex; flex-direction:column; justify-content:center">
+        <span style="font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #FFC956">AGENDA</span>
+        <h2 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(40px,4.6vw,68px); line-height:0.94; text-transform:uppercase; color:#002257; margin:14px 0 20px">PRÓXIMOS ENCUENTROS</h2>
+        <p style="font-size:17px; line-height:1.7; color:rgba(0,34,87,0.75); margin:0; text-wrap:pretty">Cada encuentro es una oportunidad para construir conocimiento colectivo, fortalecer capacidades organizacionales y tejer vínculos entre quienes trabajan cada día para transformar la vida de jóvenes en Argentina.</p>
+      </div>
+      <div style="position:relative; min-height:240px; border-radius:14px; overflow:hidden">
+        <img src="assets/foto-proximos-encuentros.jpg" alt="Encuentro de la Comunidad de Práctica" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover">
+      </div>
+      </div>
+
+      <sc-if value="{{ hayFechas }}" hint-placeholder-val="{{ true }}">
+        <div data-r="three" style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px">
+          <article style="display:grid; grid-template-columns:62px minmax(0,1fr); gap:18px; align-items:center; background:#F0F0E7; border-radius:12px; padding:18px 20px">
+            <div style="text-align:center; background:#FFC955; border-radius:10px; padding:8px 0">
+              <div style="font-size:10.5px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:rgba(0,34,87,0.72)">Sep</div>
+              <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:0.82; color:#002257">15</div>
+            </div>
+            <div>
+              <div style="font-size:15px; font-weight:700; line-height:1.3; color:#002257; margin-bottom:5px; text-wrap:pretty">Campañas: apalancarse en la voz de los beneficiarios</div>
+              <div style="font-size:13px; font-weight:600; color:#005794">9.30 a 12.30 h</div>
+            </div>
+          </article>
+          <article style="display:grid; grid-template-columns:62px minmax(0,1fr); gap:18px; align-items:center; background:#F0F0E7; border-radius:12px; padding:18px 20px">
+            <div style="text-align:center; background:rgba(0,34,87,0.1); border-radius:10px; padding:8px 0">
+              <div style="font-size:10.5px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:rgba(0,34,87,0.72)">Sep</div>
+              <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:0.82; color:#002257">29</div>
+            </div>
+            <div>
+              <div style="font-size:15px; font-weight:700; line-height:1.3; color:#002257; margin-bottom:5px; text-wrap:pretty">Campañas: armado de funnels y pipelines</div>
+              <div style="font-size:13px; font-weight:600; color:#005794">9.30 a 12.30 h</div>
+            </div>
+          </article>
+          <article style="display:grid; grid-template-columns:62px minmax(0,1fr); gap:18px; align-items:center; background:#F0F0E7; border-radius:12px; padding:18px 20px">
+            <div style="text-align:center; background:rgba(0,34,87,0.1); border-radius:10px; padding:8px 0">
+              <div style="font-size:10.5px; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:rgba(0,34,87,0.6)">Oct</div>
+              <div style="font-family:'League Gothic', sans-serif; font-size:38px; line-height:0.82; color:#002257">15</div>
+            </div>
+            <div>
+              <div style="font-size:15px; font-weight:700; line-height:1.3; color:#002257; margin-bottom:5px; text-wrap:pretty">Campaña conjunta con organizaciones socias</div>
+              <div style="font-size:13px; font-weight:600; color:#005794">9.30 a 12.30 h</div>
+            </div>
+          </article>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ sinFechas }}" hint-placeholder-val="{{ false }}">
+        <div style="border:1px dashed rgba(0,34,87,0.3); border-radius:12px; padding:34px; text-align:center">
+          <div style="font-family:'League Gothic', sans-serif; font-size:34px; line-height:1; color:#00427C; text-transform:uppercase">Próximas fechas por confirmar</div>
+          <p style="font-size:15px; line-height:1.6; color:rgba(0,34,87,0.7); margin:10px auto 0; max-width:520px">Estamos definiendo el calendario del próximo ciclo. Te avisamos por mail en cuanto esté disponible.</p>
+        </div>
+      </sc-if>
+    </div>
+  </section><section id="materiales" style="background:#F0F0E7; padding:60px 32px">
+    <div style="max-width:1240px; margin:0 auto">
+      <div data-r="side" style="display:grid; grid-template-columns:minmax(0,0.8fr) minmax(0,1.2fr); gap:48px; align-items:start">
+        <div style="position:sticky; top:110px">
+          <span style="font-size:12.5px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#005794">Biblioteca</span>
+          <h2 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(44px,5vw,76px); line-height:0.92; text-transform:uppercase; color:#002257; margin:14px 0 18px">Materiales por tema</h2>
+          <p style="font-size:16px; line-height:1.65; color:rgba(0,34,87,0.72); margin:0; text-wrap:pretty">Presentaciones, guías y registros de cada encuentro, organizados por tema y disponibles para los equipos de las organizaciones socias.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0">
+          <a href="#tema/salud-mental" style="display:grid; grid-template-columns:56px 1fr 28px; align-items:center; gap:20px; padding:15px 8px; border-top:1px solid rgba(0,34,87,0.16)" style-hover="background:rgba(255,255,255,0.6)">
+            <span style="font-family:'League Gothic', sans-serif; font-size:30px; color:#FFC955">01</span>
+            <span style="font-size:21px; font-weight:700; color:#002257">Salud mental</span>
+            <span style="font-size:20px; color:#005794; text-align:right">→</span>
+          </a>
+          <a href="#tema/politica-de-proteccion-de-juventudes" style="display:grid; grid-template-columns:56px 1fr 28px; align-items:center; gap:20px; padding:15px 8px; border-top:1px solid rgba(0,34,87,0.16)" style-hover="background:rgba(255,255,255,0.6)">
+            <span style="font-family:'League Gothic', sans-serif; font-size:30px; color:#FFC955">02</span>
+            <span style="font-size:21px; font-weight:700; color:#002257">Política de protección de juventudes</span>
+            <span style="font-size:20px; color:#005794; text-align:right">→</span>
+          </a>
+          <a href="#tema/comunicacion" style="display:grid; grid-template-columns:56px 1fr 28px; align-items:center; gap:20px; padding:15px 8px; border-top:1px solid rgba(0,34,87,0.16)" style-hover="background:rgba(255,255,255,0.6)">
+            <span style="font-family:'League Gothic', sans-serif; font-size:30px; color:#FFC955">03</span>
+            <span style="font-size:21px; font-weight:700; color:#002257">Comunicación</span>
+            <span style="font-size:20px; color:#005794; text-align:right">→</span>
+          </a>
+          <a href="#tema/sostenibilidad-y-finanzas" style="display:grid; grid-template-columns:56px 1fr 28px; align-items:center; gap:20px; padding:15px 8px; border-top:1px solid rgba(0,34,87,0.16)" style-hover="background:rgba(255,255,255,0.6)">
+            <span style="font-family:'League Gothic', sans-serif; font-size:30px; color:#FFC955">04</span>
+            <span style="font-size:21px; font-weight:700; color:#002257">Sostenibilidad y finanzas</span>
+            <span style="font-size:20px; color:#005794; text-align:right">→</span>
+          </a>
+          <a href="#tema/monitoreo-evaluacion-y-aprendizaje" style="display:grid; grid-template-columns:56px 1fr 28px; align-items:center; gap:20px; padding:15px 8px; border-top:1px solid rgba(0,34,87,0.16)" style-hover="background:rgba(255,255,255,0.6)">
+            <span style="font-family:'League Gothic', sans-serif; font-size:30px; color:#FFC955">05</span>
+            <span style="font-size:21px; font-weight:700; color:#002257">Monitoreo, evaluación y aprendizaje</span>
+            <span style="font-size:20px; color:#005794; text-align:right">→</span>
+          </a>
+          <a href="#tema/temas-afines" style="display:grid; grid-template-columns:56px 1fr 28px; align-items:center; gap:20px; padding:15px 8px; border-top:1px solid rgba(0,34,87,0.16); border-bottom:1px solid rgba(0,34,87,0.16)" style-hover="background:rgba(255,255,255,0.6)">
+            <span style="font-family:'League Gothic', sans-serif; font-size:30px; color:#FFC955">06</span>
+            <span style="font-size:21px; font-weight:700; color:#002257">Temas afines</span>
+            <span style="font-size:20px; color:#005794; text-align:right">→</span>
+          </a>
+
+        </div>
+      </div>
+
+      <a href="https://open.spotify.com/show/5iwN3rBIzpVtyyZBQm2EXW?si=a6a8904de6bd4e6c" target="_blank" rel="noopener" data-r="pod" style="margin-top:36px; display:grid; grid-template-columns:112px 1fr; gap:22px; align-items:center; background:#ffffff; border-radius:14px; padding:18px 22px; transition:transform 180ms ease" style-hover="transform:translateY(-3px)">
+        <img src="assets/podcast-conexiones.png" alt="Conexiones que inspiran" style="width:112px; height:112px; object-fit:cover; border-radius:10px; display:block">
+        <div>
+          <span style="font-size:10.5px; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:#005794">Podcast regional · EMpower y Tinker Foundation</span>
+          <div style="font-size:19px; font-weight:700; color:#002257; margin:6px 0 6px; text-wrap:pretty">Conexiones que inspiran: un espacio de aprendizaje para las ONGs</div>
+          <p style="font-size:13.5px; line-height:1.5; color:rgba(0,34,87,0.72); margin:0 0 12px; max-width:720px; text-wrap:pretty">Más de 50 organizaciones sociales de América Latina compartimos buenas prácticas, aprendizajes y desafíos en nuestro trabajo con jóvenes en salud, educación y empleabilidad. Aquí conectamos experiencias reales que inspiran y fortalecen el impacto de quienes transforman realidades desde lo social.</p>
+          <span style="display:inline-block; background:#002257; color:#F0F0E7; font-size:13px; font-weight:700; padding:10px 20px; border-radius:999px">Escuchar en Spotify →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="historias" style="background:#ffffff; padding:60px 32px 68px">
+    <div style="max-width:1240px; margin:0 auto">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:40px; flex-wrap:wrap; margin-bottom:28px">
+        <div>
+          <span style="font-size:12.5px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#005794">Para compartir</span>
+          <h2 style="font-family:'League Gothic', sans-serif; font-weight:400; font-size:clamp(44px,5.5vw,80px); line-height:0.92; text-transform:uppercase; color:#002257; margin:14px 0 0">Historias de la comunidad</h2>
+        </div>
+        <p style="max-width:400px; font-size:15.5px; line-height:1.65; color:rgba(0,34,87,0.72); margin:0">Jóvenes que pasaron por los programas de las organizaciones socias, en primera persona.</p>
+      </div>
+
+      <div data-r="six" style="display:grid; grid-template-columns:repeat(6, minmax(0,1fr)); gap:16px">
+        <a href="#historia/alina" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-alina.png" alt="Alina" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">Animarse a preguntar puede abrir oportunidades</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Alina <span style="color:rgba(255,255,255,0.55); font-weight:400">· Fundación Reciduca</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+        <a href="#historia/kevin" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-kevin.png" alt="Kevin" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">Construir un proyecto de vida a medida</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Kevin <span style="color:rgba(255,255,255,0.55); font-weight:400">· Fundación Formar</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+        <a href="#historia/jimena" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-jimena.png" alt="Jimena" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">Comunidades que sostienen las trayectorias</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Jimena <span style="color:rgba(255,255,255,0.55); font-weight:400">· Chicas en Tecnología</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+        <a href="#historia/florencia" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-florencia.png" alt="Florencia" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">De necesitar una referente a convertirse en una</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Florencia <span style="color:rgba(255,255,255,0.55); font-weight:400">· Chicas en Tecnología</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+        <a href="#historia/nayla" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-nayla.png" alt="Nayla" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">La formalidad laboral para la estabilidad</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Nayla <span style="color:rgba(255,255,255,0.55); font-weight:400">· Fundación Empujar</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+        <a href="#historia/romina" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-romina.png" alt="Romina" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">Salir de la zona de confort profesional</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Romina <span style="color:rgba(255,255,255,0.55); font-weight:400">· Fundación Oficios</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+        <a href="#historia/hernan" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-hernan.png" alt="Hernán" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">Siempre se puede aprender lo que hace falta</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Hernán <span style="color:rgba(255,255,255,0.55); font-weight:400">· Fundación Puerta 18</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+        <a href="#historia/morena" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-morena.png" alt="Morena" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">Valorar el recorrido para llegar al primer empleo</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Morena <span style="color:rgba(255,255,255,0.55); font-weight:400">· Fundación Puerta 18</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+        <a href="#historia/matias" style="grid-column:span 2; display:grid; grid-template-columns:92px minmax(0,1fr); background:#002257; border-radius:12px; overflow:hidden; transition:transform 180ms ease" style-hover="transform:translateY(-4px)">
+          <img src="assets/retrato-matias.png" alt="Matías" style="width:100%; height:100%; min-height:126px; object-fit:cover; object-position:center 20%; display:block">
+          <div style="padding:14px 16px; display:flex; flex-direction:column; gap:8px; justify-content:center">
+            <p style="font-family:'League Gothic', sans-serif; font-size:20px; line-height:1.04; text-transform:uppercase; color:#ffffff; margin:0; text-wrap:pretty">Dos mundos que terminaron por encontrarse</p>
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff">Matías <span style="color:rgba(255,255,255,0.55); font-weight:400">· Fundación Formar</span></div>
+            <div style="margin-top:auto; font-size:12.5px; font-weight:700; color:#FFC955">Leer →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+    </div>
+  </sc-if>
+
+  <footer id="empower" style="background:#002257; color:#ffffff; padding:52px 32px 30px">
+    <div style="max-width:1240px; margin:0 auto">
+      <div data-r="side" style="display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 44px; padding-bottom: 38px; border-bottom: 1px solid rgba(255,255,255,0.18)">
+        <div>
+          <img src="assets/empower-white.png" alt="EMpower – The Emerging Markets Foundation" style="height: 76px; width: 190px; display: block; margin-bottom: 32px">
+          <div style="font-size:11.5px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#FFC955; margin-bottom:18px">Seguinos</div>
+          <div style="display: flex; flex-direction: column; gap: 12px; font-size: 15px">
+            <a href="https://empowerweb.org" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.85); font-size: 13px" style-hover="color:#FFC955">empowerweb.org</a>
+            <a href="https://www.linkedin.com/company/empowerweb/" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.85); font-size: 13px" style-hover="color:#FFC955">LinkedIn</a>
+            <a href="https://www.youtube.com/@empower-theemergingmarkets7922" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.85); font-size: 13px" style-hover="color:#FFC955">YouTube</a>
+            <a href="https://www.instagram.com/empower_foundation/" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.85); font-size: 13px" style-hover="color:#FFC955">Instagram</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #FFC955; margin-bottom: 16px">Sobre EMpower</div>
+          <h3 style="font-family: 'League Gothic', sans-serif; font-weight: 400; font-size: 30px; line-height: 1; text-transform: uppercase; color: #ffffff; margin: 0 0 22px">EMpower – The Emerging Markets Foundation</h3>
+          <p style="font-size: 12.2px; line-height: 1.72; color: rgba(255,255,255,0.78); margin: 0 0 18px; text-wrap: pretty">Trabajamos para transformar la vida de jóvenes en situación de vulnerabilidad en países de mercados emergentes. Lo hacemos a través de alianzas estratégicas con organizaciones locales que impulsan oportunidades en tres áreas clave: educación, salud y bienestar económico.</p>
+          <p style="font-size: 12.2px; line-height: 1.72; color: rgba(255,255,255,0.78); margin: 0; text-wrap: pretty">Con más de 20 años de trayectoria y presencia en 15 países, creemos que las organizaciones locales son actores fundamentales para generar cambios sostenibles en sus comunidades. Por eso, en lugar de implementar programas de forma directa, construimos asociaciones de largo plazo brindando financiamiento, fortalecimiento institucional, asistencia técnica y espacios de aprendizaje entre pares. Nuestro objetivo es potenciar la capacidad de las organizaciones para ampliar su impacto y contribuir a que más jóvenes desarrollen todo su potencial.</p>
+        </div>
+      </div>
+      <div style="padding-top:28px; display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; font-size:13px; color:rgba(255,255,255,0.55)">
+        <span>Comunidad de Práctica · EMpower Argentina</span>
+        <span>© 2026 EMpower – The Emerging Markets Foundation</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;avisoEncuentros&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ejemplos&quot;,&quot;por-confirmar&quot;,&quot;oculto&quot;],&quot;default&quot;:&quot;ejemplos&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Encuentros&quot;},&quot;mostrarCifras&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;},&quot;mostrarAliadas&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secciones&quot;}}">
+const TEMAS = {
+  "salud-mental": {
+    titulo: "Salud mental",
+    intro: "Herramientas para acompañar el bienestar emocional de las juventudes y de los equipos que trabajan con ellas. Reúne lo trabajado en los encuentros de la Comunidad de Práctica junto a materiales de consulta de las organizaciones socias.",
+    carpeta: "https://empowerweb-my.sharepoint.com/personal/pcoto_empowerweb_org/Documents/5%20-%20CdeP_sharepoint/1.%20Salud%20Mental",
+    materiales: [
+      { titulo: "Intro - Salud mental y juventudes", desc: "Marco general sobre salud mental en la adolescencia y la juventud, como punto de partida del tema.", tipo: "PDF", link: "https://empowerweb-my.sharepoint.com/:b:/g/personal/pcoto_empowerweb_org/IQCOsbGHBk1ARKyWvzLfmgRUASttD4h7aZQFU0vd5b6q698?e=MaJqMU" },
+      { titulo: "Alcance de la práctica - Argentina", desc: "Panorama de cómo se aborda la salud mental en el trabajo con juventudes en el contexto argentino.", tipo: "PDF", link: "https://empowerweb-my.sharepoint.com/:b:/g/personal/pcoto_empowerweb_org/IQDy2TUsiE4ZSprpDX8IjWb1AU3TLIvoWJnM3MJAeI9Afx8?e=zj9u9p" },
+      { titulo: "Intro - Acompañamiento emocional", desc: "Qué implica acompañar emocionalmente a las juventudes desde el rol de las organizaciones.", tipo: "PDF", link: "https://empowerweb-my.sharepoint.com/:b:/g/personal/pcoto_empowerweb_org/IQAs55RZuZXbR5TRj6In4xwUAXHBSNxBPCXedn-z_TXvvno?e=cJxQVy" },
+      { titulo: "Herramientas para el acompañamiento", desc: "Compilado de recursos prácticos para que los equipos usen en el día a día con las y los jóvenes.", tipo: "Carpeta", link: "https://empowerweb-my.sharepoint.com/:f:/g/personal/pcoto_empowerweb_org/IgCPGP_EyMbwQLiFOSKOIw6hAURLymKo3jgnXYk-r2X4TSY?e=qAj32U" }
+    ]
+  },
+  "politica-de-proteccion-de-juventudes": {
+    titulo: "Política de protección de juventudes",
+    intro: "Materiales para prevenir, detectar y actuar frente a situaciones de riesgo en el trabajo con juventudes.",
+    carpeta: "https://empowerweb-my.sharepoint.com/personal/pcoto_empowerweb_org/Documents/5%20-%20CdeP_sharepoint/2.%20Pol%c3%adtica%20de%20Protecci%c3%b3n%20de%20Juventudes",
+    materiales: [
+      { titulo: "Políticas de protección de las organizaciones socias", desc: "Políticas de protección de juventudes de organizaciones de nuestra Comunidad de Práctica.", tipo: "Carpeta", link: "https://empowerweb-my.sharepoint.com/personal/pcoto_empowerweb_org/Documents/5%20-%20CdeP_sharepoint/2.%20Pol%c3%adtica%20de%20Protecci%c3%b3n%20de%20Juventudes" }
+    ]
+  },
+  "comunicacion": {
+    titulo: "Comunicación",
+    intro: "Recursos para comunicar el impacto de los programas hacia adentro y hacia afuera de las organizaciones.",
+    carpeta: "https://empowerweb-my.sharepoint.com/personal/pcoto_empowerweb_org/Documents/5%20-%20CdeP_sharepoint/3.%20Comunicaci%c3%b3n",
+    materiales: [
+      { titulo: "Oratoria", desc: "Recursos para preparar y sostener presentaciones frente a distintos públicos.", tipo: "Carpeta", link: "https://empowerweb-my.sharepoint.com/:f:/g/personal/pcoto_empowerweb_org/IgDPU9IyEzOwQIEuTkSAEjt_AcRHmyt7iyscOA6PR4vjL1k?e=HQx2vw" },
+      { titulo: "Storytelling institucional", desc: "Cómo construir y contar el relato de la organización y de su impacto.", tipo: "Carpeta", link: "https://empowerweb-my.sharepoint.com/:f:/g/personal/pcoto_empowerweb_org/IgAlsMPpFpeVRb8HFg316klKAaSLarzlOrMPkqPaXwSTmxQ?e=TtevXJ" },
+      { titulo: "Armado de campañas", desc: "Materiales para planificar campañas de comunicación, desde el objetivo hasta la difusión.", tipo: "Carpeta", link: "https://empowerweb-my.sharepoint.com/:f:/g/personal/pcoto_empowerweb_org/IgAs65K7iNcLQqzTowP_qK5cAcqH84THdjx-2HdZQZw-EPs?e=dvMKhg" }
+    ]
+  },
+  "sostenibilidad-y-finanzas": {
+    titulo: "Sostenibilidad y finanzas",
+    intro: "Materiales para la salud financiera, diversificación de ingresos y sostenibilidad de las organizaciones.",
+    carpeta: "https://empowerweb-my.sharepoint.com/personal/pcoto_empowerweb_org/Documents/5%20-%20CdeP_sharepoint/4.%20Sostenibilidad%20y%20finanzas",
+    materiales: [
+      { titulo: "Índice de manual de políticas contables", desc: "Estructura de referencia para armar el manual de políticas contables de la organización.", tipo: "PDF", link: "https://empowerweb-my.sharepoint.com/:b:/g/personal/pcoto_empowerweb_org/IQDjosKUu-iBRrXw5SukClfsAW136yWCmOsQX6qWLxohmSw?e=uDUVbl" },
+      { titulo: "Check list de control financiero", desc: "Listado de verificación para revisar los controles financieros internos.", tipo: "PDF", link: "https://empowerweb-my.sharepoint.com/:b:/g/personal/pcoto_empowerweb_org/IQC8J971ecoIT4n4Rvwu--G6AcGmBvVz9hDsFAQckcxWJ0g?e=jfgMeb" },
+      { titulo: "Indicadores de salud financiera", desc: "Planilla con los indicadores para monitorear la situación financiera de la organización.", tipo: "Planilla", link: "https://empowerweb-my.sharepoint.com/:x:/g/personal/pcoto_empowerweb_org/IQDNwTFpjJJ7RL9PCdnXNiLgAWzelXuimG8pkJ7Fx4pIMtg?e=KieAqn" }
+    ]
+  },
+  "monitoreo-evaluacion-y-aprendizaje": {
+    titulo: "Monitoreo, evaluación y aprendizaje",
+    intro: "Marcos e instrumentos para medir resultados y sistematizar aprendizajes de los programas.",
+    carpeta: "https://empowerweb-my.sharepoint.com/personal/pcoto_empowerweb_org/Documents/5%20-%20CdeP_sharepoint/5.%20Monitoreo%2c%20evaluaci%c3%b3n%20y%20aprendizaje",
+    materiales: [
+      { titulo: "Monitoreo, evaluación y aprendizaje", desc: "Material de referencia sobre cómo medir resultados y sistematizar aprendizajes de los programas.", tipo: "PDF", link: "https://empowerweb-my.sharepoint.com/:b:/g/personal/pcoto_empowerweb_org/IQAOFSldIjjuRIbUn6nsBKM-Ad9t0LArzJA55BH43TVYZGQ?e=xJW1CV" }
+    ]
+  },
+  "temas-afines": {
+    titulo: "Temas afines",
+    intro: "Estudios y publicaciones de interés sobre temas de interés de las organizaciones de la sociedad civil.",
+    carpeta: "",
+    materiales: [
+      { titulo: "Atlas de los trabajos del futuro", desc: "Publicación de Sur Futuro que aporta evidencia inédita y comparada de 20 países de la región sobre cómo el cambio tecnológico, climático y demográfico está reconfigurando el empleo y cómo promover los espacios de oportunidad y mitigar las áreas de riesgo que se están gestando.", tipo: "Publicación", link: "https://www.sur-futuro.org/atlas-trabajos-del-futuro-2026" },
+      { titulo: "Hagamos doble click en el trabajo", desc: "Herramientas y materiales de la OIT, con el apoyo de Sur Futuro y Fundación Oficios, para la formación sobre derechos laborales juveniles y el ingreso al mundo del trabajo: guía de recursos, cuadernillo de actividades, recursos de apoyo y serie audiovisual.", tipo: "Recursos", link: "https://www.ilo.org/es/publications/hagamos-doble-click-en-el-trabajo-guia-para-informar-y-capacitar-sobre-el" },
+      { titulo: "Construyendo Resiliencia: Sostenibilidad Financiera de las Organizaciones de la Sociedad Civil en América Latina en medio de cambios regulatorios", desc: "Elaborado por Civic House con el apoyo de Tinker Foundation, explora cómo las OSC de la región logran sostenerse financieramente en un entorno marcado por la incertidumbre política, económica y digital.", tipo: "Estudio", link: "https://www.civic.house/post/construyendo-resiliencia-el-nuevo-estudio-sobre-sostenibilidad-y-espacio-c%C3%ADvico-en-am%C3%A9rica-latina" }
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  state = { hash: typeof location !== "undefined" ? location.hash : "" };
+
+  componentDidMount() {
+    this._onHash = () => {
+      this.setState({ hash: location.hash });
+      if (location.hash.indexOf("#historia/") === 0 || location.hash.indexOf("#organizacion/") === 0 || location.hash.indexOf("#tema/") === 0) window.scrollTo(0, 0);
+    };
+    window.addEventListener("hashchange", this._onHash);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("hashchange", this._onHash);
+  }
+
+  renderVals() {
+    const aviso = this.props.avisoEncuentros ?? "ejemplos";
+    const h = this.state.hash || "";
+    const id = h.indexOf("#historia/") === 0 ? h.slice(10).toLowerCase() : "";
+    const org = h.indexOf("#organizacion/") === 0 ? h.slice(14).toLowerCase() : "";
+    const tema = h.indexOf("#tema/") === 0 ? h.slice(6).toLowerCase() : "";
+    return {
+      verHistoria: !!id,
+      verOrganizacion: !!org,
+      verTema: !!tema,
+      temaTitulo: (TEMAS[tema] || {}).titulo || "",
+      temaIntro: (TEMAS[tema] || {}).intro || "",
+      temaCarpeta: (TEMAS[tema] || {}).carpeta || "",
+      hayCarpeta: !!(TEMAS[tema] || {}).carpeta,
+      temaMateriales: (TEMAS[tema] || {}).materiales || [],
+      esReciduca: org === "reciduca",
+      esChicas: org === "chicas-en-tecnologia",
+      esCultura: org === "cultura-de-trabajo",
+      esFormar: org === "formar",
+      esEnsena: org === "ensena-por-argentina",
+      esPuerta18: org === "puerta18",
+      esOficios: org === "oficios",
+      esEmpujar: org === "empujar",
+      verHome: !id && !org && !tema,
+      nombreHistoria: ({alina:"Alina",kevin:"Kevin",jimena:"Jimena",florencia:"Florencia",nayla:"Nayla",romina:"Romina",hernan:"Hernán",morena:"Morena",matias:"Matías"})[id] || "",
+      esAlina: id === "alina",
+      esKevin: id === "kevin",
+      esJimena: id === "jimena",
+      esFlorencia: id === "florencia",
+      esNayla: id === "nayla",
+      esRomina: id === "romina",
+      esHernan: id === "hernan",
+      esMorena: id === "morena",
+      esMatias: id === "matias",
+      mostrarCifras: this.props.mostrarCifras ?? true,
+      mostrarAliadas: this.props.mostrarAliadas ?? true,
+      hayFechas: aviso === "ejemplos",
+      sinFechas: aviso === "por-confirmar"
+    };
+  }
+}
+
+</script>
+</body>
+</html>
