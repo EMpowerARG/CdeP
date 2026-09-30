@@ -1,0 +1,1855 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Comunidad de Práctica — EMpower</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<style>
+  /* ---------- reset + paleta global (compartida por Hero, Organizaciones, Agenda y Materiales) ---------- */
+  :root{
+    --navy: #002257;
+    --blue: #005794;
+    --yellow: #ffc955;
+    --coral: #fc7366;
+    --purple: #a789e7;
+    --muted: #5c6b80;
+    --border: rgba(0,34,87,0.12);
+    --cream: #faf7f2;
+    --white: #fff;
+    --page-bg: var(--cream);
+    --card-bg: var(--white);
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --page-bg: #071634;
+      --card-bg: #0d2350;
+      --muted: #a9b7cc;
+      --border: rgba(238,243,248,0.16);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --page-bg: #071634;
+    --card-bg: #0d2350;
+    --muted: #a9b7cc;
+    --border: rgba(238,243,248,0.16);
+    color-scheme: dark;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--navy);
+    font-family: 'Open Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
+  :focus-visible{ outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  /* Deja los títulos de cada sección visibles debajo del header sticky al navegar por ancla */
+  #top, #organizaciones, #encuentros, #materiales, #historias{ scroll-margin-top: 88px; }
+</style>
+
+<!-- ======================================================================
+     HERO — estilos scopeados bajo #top (antes :root / body de "2. Hero.html")
+     Foto horizontal de fondo a pantalla completa, con esfumado para leer
+     el texto encima (antes: grid con la foto en un recuadro aparte).
+     ====================================================================== -->
+<style>
+  #top{
+    position: relative;
+    overflow: hidden;
+    min-height: 68vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 56px 60px 64px;
+    background: var(--navy);
+  }
+
+  #top .hero-bg{ position: absolute; inset: 0; z-index: 0; }
+  #top .hero-bg img,
+  #top .hero-bg svg{
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #top .hero-scrim{
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(0,34,87,0.05) 0%, rgba(0,34,87,0.35) 55%, rgba(0,34,87,0.9) 100%),
+      linear-gradient(90deg, rgba(0,34,87,0.6) 0%, rgba(0,34,87,0.05) 60%);
+  }
+
+  #top .hero-content{
+    position: relative; z-index: 2;
+    max-width: 700px;
+  }
+
+  #top .eyebrow{
+    display: inline-block;
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--navy);
+    background: var(--yellow);
+    padding: 4px 10px;
+    margin-bottom: 18px;
+    transform: rotate(-2deg);
+  }
+
+  #top .title{
+    margin: 0 0 20px;
+    font-family: 'League Gothic', 'Arial Narrow', sans-serif;
+    font-weight: 400;
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 0.9;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-wrap: balance;
+  }
+  #top .title .hl{
+    background: var(--coral);
+    color: var(--white);
+    padding: 0 0.14em;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+
+  #top .desc{
+    margin: 0 0 32px;
+    max-width: 50ch;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.86);
+  }
+
+  #top .stats{ display: flex; gap: 16px; }
+  #top .stat{
+    background: var(--white);
+    border-top: 6px solid var(--accent, var(--yellow));
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.2);
+    padding: 14px 16px 16px;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  #top .stat:nth-child(1){ transform: rotate(-1.4deg); }
+  #top .stat:nth-child(2){ transform: rotate(1.2deg); }
+  #top .stat:nth-child(3){ transform: rotate(-1deg); }
+  #top .stat:nth-child(4){ transform: rotate(1.6deg); }
+  #top .stat-num{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.55rem;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  #top .stat-label{
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 900px){
+    #top{ padding: 40px 24px 40px; min-height: 60vh; }
+    #top .hero-content{ max-width: none; }
+  }
+  @media (max-width: 480px){
+    #top{ min-height: 56vh; }
+    #top .stats{ flex-wrap: wrap; }
+    #top .stat{ flex: 1 1 calc(50% - 8px); min-width: calc(50% - 8px); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #top .stat{ transform: none; }
+  }
+</style>
+
+<!-- ======================================================================
+     ORGANIZACIONES (listado) — estilos scopeados bajo #organizaciones
+     (antes "3. Organizaciones.html")
+     ====================================================================== -->
+<style>
+  #organizaciones{
+    background: #fdeeea;
+    padding-block: 56px 72px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) #organizaciones{ background: #1c1210; }
+  }
+  :root[data-theme="dark"] #organizaciones{ background: #1c1210; }
+
+  #organizaciones .section-inner{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+
+  #organizaciones .hero{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  #organizaciones .title{
+    margin: 0;
+    font-family: 'League Gothic', 'Arial Narrow', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 6.5vw, 4.2rem);
+    line-height: 0.94;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  #organizaciones .title .hl{
+    background: var(--coral);
+    color: var(--white);
+    padding: 0 0.14em;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+  #organizaciones .subtitle{
+    margin: 0;
+    max-width: 70ch;
+    font-size: 0.95rem;
+    line-height: 1.68;
+    color: var(--muted);
+  }
+
+  #organizaciones .org-section{ display: flex; flex-direction: column; gap: 18px; }
+  #organizaciones .org-sublbl{
+    font-size: 0.64rem; font-weight: 800; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--navy);
+    background: var(--yellow);
+    padding: 5px 12px;
+    display: inline-block; width: fit-content;
+  }
+  #organizaciones .org-sublbl.c-coral{ background: var(--coral); color: var(--white); }
+
+  #organizaciones .org-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  #organizaciones .org-grid.aliadas{ grid-template-columns: repeat(5, 1fr); }
+
+  #organizaciones .org-card{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent, var(--yellow));
+    padding: 20px 18px;
+    text-decoration: none;
+    color: inherit;
+    min-height: 92px;
+    transition: box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease;
+  }
+  #organizaciones .org-card:hover{
+    box-shadow: 0 10px 26px rgba(0,34,87,0.14);
+    transform: translateY(-3px);
+  }
+  #organizaciones .org-logo{
+    flex: 0 0 auto;
+    width: 46px; height: 46px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page-bg);
+    overflow: hidden;
+  }
+  #organizaciones .org-logo img{ max-width: 100%; max-height: 100%; object-fit: contain; }
+  #organizaciones .org-logo .fallback{
+    font-family: 'League Gothic', sans-serif;
+    font-size: 1.2rem; color: var(--navy);
+  }
+  #organizaciones .org-name{
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.26;
+    color: var(--navy);
+  }
+  #organizaciones .empty-msg{ font-size: 0.86rem; color: var(--muted); padding: 8px 0; }
+
+  @media (prefers-reduced-motion: reduce){
+    #organizaciones .org-card{ transition: none; }
+  }
+
+  @media (max-width: 900px){
+    #organizaciones{ padding-block: 48px 56px; }
+    #organizaciones .org-grid{ grid-template-columns: repeat(2, 1fr); }
+    #organizaciones .org-grid.aliadas{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 560px){
+    #organizaciones{ padding-block: 36px 44px; }
+    #organizaciones .section-inner{ gap: 36px; }
+    #organizaciones .hero{ flex-direction: column; align-items: stretch; }
+    #organizaciones .org-grid, #organizaciones .org-grid.aliadas{ grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- ======================================================================
+     AGENDA — estilos scopeados bajo #encuentros (antes "4. Agenda.html")
+     ====================================================================== -->
+<style>
+  #encuentros{
+    background: #f4f0fb;
+    padding-block: 56px 72px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) #encuentros{ background: #120f1e; }
+  }
+  :root[data-theme="dark"] #encuentros{ background: #120f1e; }
+
+  #encuentros .section-inner{
+    max-width: 800px;
+    margin: 0 auto;
+    padding-inline: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+  }
+
+  #encuentros .hero{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  #encuentros .hero-text{ flex: 1 1 320px; min-width: 0; }
+  #encuentros .title{
+    margin: 0 0 14px;
+    font-family: 'League Gothic', 'Arial Narrow', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.8rem, 6.5vw, 4.2rem);
+    line-height: 0.92;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  #encuentros .title .hl{
+    background: var(--coral);
+    color: var(--white);
+    padding: 0 0.14em;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+  #encuentros .subtitle{
+    margin: 0;
+    max-width: 48ch;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  #encuentros .hero-photo{
+    margin: 0;
+    flex: 0 0 auto;
+    width: 180px;
+    height: 128px;
+    overflow: hidden;
+    background: var(--navy);
+    border: 5px solid var(--yellow);
+    transform: rotate(2deg);
+  }
+  #encuentros .hero-photo img,
+  #encuentros .hero-photo svg{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #encuentros .agenda{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #encuentros .agenda-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  #encuentros .agenda-head h2{
+    margin: 0;
+    font-family: 'League Gothic', 'Arial Narrow', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--navy);
+  }
+  #encuentros .agenda-head span{
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  #encuentros #agenda-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+
+  #encuentros .card{
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent, var(--purple));
+    box-shadow: 0 1px 2px rgba(0,34,87,0.06);
+    padding: 20px 20px 22px;
+    min-width: 0;
+  }
+
+  #encuentros .date-badge{
+    align-self: flex-start;
+    margin-bottom: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--accent, var(--purple));
+    padding: 3px 9px;
+  }
+  #encuentros .card h3{
+    margin: 0 0 8px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    line-height: 1.28;
+    color: var(--navy);
+  }
+  #encuentros .card p{
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  @media (max-width: 560px){
+    #encuentros{ padding-block: 36px 44px; }
+    #encuentros .section-inner{ gap: 36px; }
+    #encuentros .hero{ flex-direction: column; align-items: stretch; }
+    #encuentros .hero-text{ width: 100%; flex: 1 1 auto; }
+    #encuentros .hero-photo{ order: -1; width: 100%; height: 160px; transform: rotate(0); }
+    #encuentros .title{ font-size: clamp(2.6rem, 14vw, 3.4rem); }
+    #encuentros #agenda-list{ grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    #encuentros .hero-photo{ transform: none; }
+    #encuentros .title .hl{ transform: none; }
+  }
+</style>
+
+<!-- ======================================================================
+     MATERIALES (por tema) — estilos scopeados bajo #materiales
+     (antes "5. Materiales.html")
+     ====================================================================== -->
+<style>
+  #materiales{ position: relative; overflow: hidden; padding: 56px 20px 72px; background: #eaf3fa; }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) #materiales{ background: #081a2c; }
+  }
+  :root[data-theme="dark"] #materiales{ background: #081a2c; }
+
+  #materiales .blob{ position: absolute; border-radius: 50%; pointer-events: none; }
+  #materiales .blob-1{ width: 320px; height: 320px; background: var(--purple); opacity: .16; top: -130px; right: 8%; }
+  #materiales .blob-2{ width: 210px; height: 210px; background: var(--coral); opacity: .14; bottom: 60px; left: -70px; }
+  #materiales .blob-3{ width: 130px; height: 130px; background: var(--blue); opacity: .12; top: 55%; right: -50px; }
+
+  #materiales .wrap{
+    position: relative; z-index: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  #materiales .top{ display: grid; grid-template-columns: 320px minmax(0,1fr); gap: 30px 60px; align-items: start; }
+
+  #materiales .title{
+    margin: 0 0 18px;
+    font-family: 'League Gothic', 'Arial Narrow', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.8rem, 5.6vw, 3.9rem);
+    line-height: 0.9;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  #materiales .title .hl{
+    background: var(--coral);
+    color: var(--white);
+    padding: 0 0.14em;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+
+  #materiales .subtitle{
+    margin: 0;
+    max-width: 42ch;
+    font-size: 0.95rem;
+    line-height: 1.68;
+    color: var(--muted);
+  }
+
+  #materiales .tema-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 22px 18px;
+  }
+
+  #materiales .tema-card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border-top: 6px solid var(--accent, var(--blue));
+    box-shadow: 5px 5px 0 var(--border);
+    padding: 18px 18px 18px;
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  #materiales .tema-card:nth-child(4n+1){ transform: rotate(-1.4deg); }
+  #materiales .tema-card:nth-child(4n+2){ transform: rotate(1.2deg); }
+  #materiales .tema-card:nth-child(4n+3){ transform: rotate(-1deg); }
+  #materiales .tema-card:nth-child(4n+4){ transform: rotate(1.6deg); }
+  #materiales .tema-card:hover, #materiales .tema-card:focus-visible{
+    transform: translateY(-5px) rotate(0deg);
+    box-shadow: 7px 9px 0 var(--border);
+  }
+  #materiales .tema-num{
+    font-family: 'League Gothic', sans-serif;
+    font-size: 1.5rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+  }
+  #materiales .tema-name{
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    line-height: 1.28;
+    color: var(--navy);
+    flex: 1;
+  }
+  #materiales .tema-arrow-row{ margin-top: 14px; display: flex; justify-content: flex-end; }
+  #materiales .tema-arrow{ font-size: 1.15rem; color: var(--navy); transition: transform 0.18s ease; }
+  #materiales .tema-card:hover .tema-arrow{ transform: translateX(5px); }
+
+  #materiales .blocks{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  #materiales .block{
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--accent, var(--yellow));
+    box-shadow: 0 1px 2px rgba(0,34,87,0.06);
+    padding: 28px 26px 26px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  #materiales .block.oscuro{ background: var(--navy); border-color: var(--navy); color: rgba(255,255,255,0.94); }
+
+  #materiales .block-head{ display: flex; align-items: center; gap: 16px; }
+  #materiales .block-img{
+    flex: 0 0 auto; width: 64px; height: 64px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--page-bg);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  #materiales .block.oscuro .block-img{ background: rgba(255,255,255,0.1); }
+  #materiales .block-img img{ width: 100%; height: 100%; object-fit: cover; }
+  #materiales .block-img svg{ width: 44%; height: 44%; color: var(--muted); }
+  #materiales .block.oscuro .block-img svg{ color: rgba(255,255,255,0.45); }
+
+  #materiales .block-cat{
+    font-size: 0.64rem; font-weight: 800; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--blue);
+  }
+  #materiales .block.oscuro .block-cat{ color: var(--yellow); }
+  #materiales .block-title{ margin: 4px 0 0; font-size: 1.24rem; font-weight: 800; line-height: 1.3; color: var(--navy); }
+  #materiales .block.oscuro .block-title{ color: var(--white); }
+  #materiales .block-desc{ margin: 0; font-size: 0.87rem; line-height: 1.62; color: var(--muted); }
+  #materiales .block.oscuro .block-desc{ color: rgba(255,255,255,0.74); }
+
+  #materiales .block-btn{
+    align-self: flex-start;
+    margin-top: 4px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'League Gothic', 'Arial Narrow', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 22px 8px;
+    border-radius: 999px;
+    background: var(--navy); color: var(--white);
+    box-shadow: 0 4px 14px rgba(0,34,87,0.25);
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, gap 0.18s ease;
+  }
+  #materiales .block.oscuro .block-btn{ background: var(--yellow); color: var(--navy); box-shadow: 0 4px 14px rgba(0,0,0,0.3); }
+  #materiales .block-btn:hover{ background: var(--blue); color: var(--white); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,34,87,0.3); gap: 12px; }
+  #materiales .block.oscuro .block-btn:hover{ background: var(--white); color: var(--navy); }
+
+  #materiales .empty-msg{ font-size: 0.86rem; color: var(--muted); padding: 8px 0; }
+
+  @media (prefers-reduced-motion: reduce){
+    #materiales .tema-card, #materiales .block-btn, #materiales .tema-arrow{ transition: none; }
+    #materiales .tema-card{ transform: none !important; }
+    #materiales .tema-card:hover, #materiales .tema-card:focus-visible{ transform: none; }
+  }
+
+  @media (max-width: 900px){
+    #materiales{ padding: 48px 20px 56px; }
+    #materiales .top{ grid-template-columns: 1fr; gap: 26px; }
+    #materiales .blocks{ grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px){
+    #materiales{ padding: 36px 20px 44px; }
+    #materiales .wrap{ gap: 40px; }
+    #materiales .tema-grid{ grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+  @media (max-width: 380px){
+    #materiales .tema-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- ======================================================================
+     HISTORIAS DE COMUNIDAD — estilos scopeados bajo #historias
+     (antes "6. Historias.html"; tiene su propia paleta navy/dorado)
+     ====================================================================== -->
+<style>
+  #historias{ background:#fdf6e6; color:var(--navy); padding-block:56px 72px; }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) #historias{ background:#1c1708; }
+  }
+  :root[data-theme="dark"] #historias{ background:#1c1708; }
+  #historias [hidden]{ display:none!important; }
+  #historias h1, #historias h2, #historias h3{ font-family:'League Gothic', 'Arial Narrow', sans-serif; font-weight:400; text-wrap:balance; }
+  #historias button{ font-family:inherit; }
+  #historias a{ color:inherit; }
+  #historias img{ max-width:100%; display:block; }
+
+  #historias .section-inner{ max-width:1180px; margin:0 auto; padding-inline:20px; }
+
+  #historias .header-grid{
+    display:flex; flex-direction:column; gap:16px;
+    margin-bottom:34px;
+  }
+  #historias .headline{
+    margin: 0;
+    font-family: 'League Gothic', 'Arial Narrow', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.8rem, 5.6vw, 4.2rem);
+    line-height: 0.92;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--navy);
+    text-wrap: balance;
+  }
+  #historias .headline .hl{
+    background: var(--coral);
+    color: var(--white);
+    padding: 0 0.14em;
+    display: inline-block;
+    transform: rotate(-2deg);
+  }
+  #historias .desc{ font-size:0.95rem; line-height:1.68; color:var(--muted); max-width:60ch; margin:0; }
+
+  #historias .carousel-wrap{ position:relative; }
+  #historias .carousel{
+    display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x proximity;
+    scrollbar-width:none; -ms-overflow-style:none;
+  }
+  #historias .carousel::-webkit-scrollbar{ display:none; height:0; }
+  #historias .carousel-arrow{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+    width:44px; height:44px; border-radius:100%; border:none;
+    background:var(--navy); color:#fff; font-size:17px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    box-shadow:0 4px 14px rgba(0,34,87,.28);
+  }
+  #historias .carousel-arrow:hover{ background:var(--blue); }
+  #historias .carousel-arrow:disabled{ opacity:.3; cursor:default; }
+  #historias .carousel-arrow:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
+  #historias .carousel-arrow.prev{ left:-8px; }
+  #historias .carousel-arrow.next{ right:-8px; }
+  @media (max-width:640px){ #historias .carousel-arrow{ display:none; } }
+  #historias .tile{
+    position:relative; display:block; flex:0 0 300px; height:400px; overflow:hidden;
+    background:var(--navy); text-align:left; border:none; padding:0; cursor:pointer;
+    text-decoration:none; scroll-snap-align:start; color:#fff;
+  }
+  #historias .tile img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  #historias .tile .tile-initials{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'League Gothic', 'Arial Narrow', sans-serif; font-size:110px; font-weight:400; color:rgba(255,255,255,.18);
+  }
+  #historias .tile-tint{
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,34,87,.22) 0%, rgba(0,34,87,.12) 40%, rgba(0,34,87,.92) 100%);
+  }
+  #historias .tile-content{ position:absolute; left:0; right:0; bottom:0; padding:20px 22px 22px; }
+  #historias .tile-title{
+    font-size:17px; font-weight:800; line-height:1.25;
+    color:#fff; margin:0 0 6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  #historias .tile-byline{ font-size:12px; color:rgba(255,255,255,.72); margin:0 0 10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #historias .tile-read{ font-size:12.5px; font-weight:700; color:var(--yellow); letter-spacing:.02em; }
+
+  #historias .state-box{ border:1px dashed var(--border); padding:56px 24px; text-align:center; color:var(--muted); }
+  #historias .state-box h2{ font-size:1.3rem; color:var(--navy); margin:0 0 8px; text-transform:none; }
+  #historias .state-box p{ max-width:48ch; margin:0 auto; font-size:0.88rem; line-height:1.5; }
+  #historias .state-box code{ background:rgba(0,34,87,.06); padding:1px 6px; }
+
+  @media (max-width:900px){
+    #historias{ padding-block: 48px 56px; }
+  }
+  @media (max-width:560px){
+    #historias{ padding-block: 36px 44px; }
+  }
+
+  #historias .foot-note{ margin-top:30px; font-size:0.78rem; color:var(--muted); text-align:center; }
+</style>
+</head>
+<body>
+
+<!-- ======================================================================
+     HEADER (antes "1. Header.html")
+     ====================================================================== -->
+<header class="cdep-header" style="position:sticky; top:0; z-index:50; background:#002257; font-family:'Open Sans', system-ui, sans-serif">
+  <style>
+    .cdep-header{ --navy:#002257; --blue:#005794; --coral:#fc7366; --yellow:#ffc955; }
+    .cdep-header::after{
+      content:""; position:absolute; left:0; right:0; bottom:-2px; height:5px;
+      background:var(--coral);
+    }
+    .cdep-header .logo-link{ transition:transform 0.25s cubic-bezier(.34,1.56,.64,1); }
+    .cdep-header .logo-link:hover{ transform:rotate(-3deg) scale(1.04); }
+    .cdep-header .nav-link{
+      color:#ffffff; text-decoration:none;
+      transition:color 0.2s ease;
+    }
+    .cdep-header .nav-link:hover{ color:var(--yellow); }
+    .cdep-header .cta{
+      display:inline-block; background:var(--coral); color:#ffffff;
+      padding:9px 22px 7px; border-radius:999px; text-decoration:none;
+      white-space:nowrap; box-shadow:0 4px 14px rgba(252,115,102,0.4);
+      font-family:'League Gothic', 'Arial Narrow', sans-serif; font-weight:400;
+      font-size:16px; letter-spacing:0.04em; text-transform:uppercase;
+      transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+    .cdep-header .cta:hover{
+      background:var(--yellow); color:var(--navy);
+      transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    }
+    @media (max-width:640px){
+      .cdep-header [data-r="hdrbar"]{ padding:12px 20px; }
+      .cdep-header .nav-link{ display:none; }
+    }
+  </style>
+  <div data-r="hdrbar" style="position:relative; max-width:1240px; margin:0 auto; padding:14px 32px; display:flex; align-items:center; justify-content:space-between; gap:32px">
+    <a href="#top" class="logo-link" style="display:flex; align-items:center; gap:14px">
+      <img src="assets/empower-white.png" alt="EMpower" style="height: 50px; width: 126px; display: block">
+    </a>
+    <nav data-r="nav" style="display:flex; align-items:center; gap:28px; font-size:13.5px; font-weight:600; letter-spacing:0.02em">
+      <a href="#organizaciones" class="nav-link">Organizaciones</a>
+      <a href="#encuentros" class="nav-link">Agenda</a>
+      <a href="#materiales" class="nav-link">Materiales</a>
+      <a href="#historias" class="nav-link">Historias</a>
+      <a href="#empower" class="cta">Sobre EMpower</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ======================================================================
+     HERO (antes "2. Hero.html")
+     ====================================================================== -->
+<section class="hero" id="top">
+  <div class="hero-bg" id="hero-photo-bg" aria-hidden="true">
+    <svg viewBox="0 0 1600 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foto de la comunidad CdeP (placeholder, reemplazar desde la spreadsheet)" preserveAspectRatio="xMidYMid slice">
+      <rect width="1600" height="700" fill="#002257"/>
+      <circle cx="360" cy="180" r="260" fill="#005794"/>
+      <circle cx="1140" cy="140" r="170" fill="#fc7366"/>
+      <circle cx="1320" cy="540" r="230" fill="#a789e7"/>
+      <circle cx="470" cy="560" r="190" fill="#ffc955"/>
+    </svg>
+  </div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="eyebrow" id="hero-widget-eyebrow" hidden></div>
+    <h1 class="title" id="hero-widget-title"></h1>
+    <p class="desc" id="hero-widget-subtitle"></p>
+    <div class="stats" id="hero-widget-stats"></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     ORGANIZACIONES (antes "3. Organizaciones.html")
+     ====================================================================== -->
+<div id="organizaciones">
+  <div class="section-inner">
+    <header class="hero">
+      <div class="hero-text">
+        <h1 class="title" id="org-widget-title"></h1>
+      </div>
+      <p class="subtitle" id="org-widget-subtitle"></p>
+    </header>
+
+    <section class="org-section" aria-label="Organizaciones socias">
+      <div class="org-sublbl" id="lbl-socias"></div>
+      <div class="org-grid" id="grid-socias"></div>
+    </section>
+
+    <section class="org-section" aria-label="Organizaciones aliadas">
+      <div class="org-sublbl c-coral" id="lbl-aliadas"></div>
+      <div class="org-grid aliadas" id="grid-aliadas"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ======================================================================
+     AGENDA (antes "4. Agenda.html")
+     ====================================================================== -->
+<div id="encuentros">
+  <div class="section-inner">
+    <header class="hero">
+      <div class="hero-text">
+        <h1 class="title" id="agenda-widget-title"></h1>
+        <p class="subtitle" id="agenda-widget-subtitle"></p>
+      </div>
+      <figure class="hero-photo" id="agenda-widget-photo">
+        <svg viewBox="0 0 100 71" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Foto de la comunidad CdeP (placeholder, reemplazar desde la spreadsheet)" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="71" fill="#002257"/>
+          <rect x="0" y="45" width="100" height="26" fill="#005794"/>
+          <circle cx="24" cy="24" r="13" fill="#ffc955"/>
+          <circle cx="60" cy="18" r="8" fill="#fc7366"/>
+          <circle cx="82" cy="34" r="10" fill="#a789e7"/>
+        </svg>
+      </figure>
+    </header>
+
+    <section class="agenda" aria-label="Próximos encuentros">
+      <div class="agenda-head">
+        <h2>Próximos encuentros</h2>
+      </div>
+      <div id="agenda-list"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ======================================================================
+     MATERIALES (antes "5. Materiales.html")
+     ====================================================================== -->
+<section id="materiales">
+  <div class="blob blob-1" aria-hidden="true"></div>
+  <div class="blob blob-2" aria-hidden="true"></div>
+  <div class="blob blob-3" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <div class="top">
+      <header>
+        <h1 class="title" id="mat-widget-title"></h1>
+        <p class="subtitle" id="mat-widget-subtitle"></p>
+      </header>
+      <nav class="tema-grid" id="tema-list" aria-label="Materiales por tema"></nav>
+    </div>
+
+    <div class="blocks" id="blocks"></div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     HISTORIAS DE COMUNIDAD (antes "6. Historias.html")
+     ====================================================================== -->
+<div id="historias">
+  <div class="section-inner">
+    <div class="header-grid" id="historiasPageHeader">
+      <h1 class="headline" id="historiasHeadlineText"></h1>
+      <p class="desc" id="historiasDescText"></p>
+    </div>
+
+    <div id="historiasGridWrap"></div>
+
+    <p class="foot-note" id="historiasFootNote" hidden></p>
+  </div>
+</div>
+
+<!-- ======================================================================
+     FOOTER (antes "7. Footer.html")
+     ====================================================================== -->
+<footer id="empower" class="cdep-footer" style="background:#002257; color:#ffffff; padding:52px 32px 30px; border-top:4px solid #fc7366; position:relative; overflow:hidden">
+  <style>
+    .cdep-footer{ --navy:#002257; --blue:#005794; --coral:#fc7366; --yellow:#ffc955; }
+    .cdep-footer::before{
+      content:""; position:absolute; top:-120px; right:-120px; width:320px; height:320px;
+      background:radial-gradient(circle, rgba(252,115,102,0.16) 0%, rgba(252,115,102,0) 70%);
+      pointer-events:none;
+    }
+    .cdep-footer .f-logo{ transition:transform 0.25s cubic-bezier(.34,1.56,.64,1); display:inline-block; }
+    .cdep-footer .f-logo:hover{ transform:rotate(-3deg) scale(1.04); }
+    .cdep-footer .f-soc{ display:flex; gap:10px; }
+    .cdep-footer .f-soc a{
+      display:flex; align-items:center; justify-content:center; width:34px; height:34px;
+      border-radius:999px; border:1px solid rgba(255,255,255,0.22); color:rgba(255,255,255,0.85);
+      transition:transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .cdep-footer .f-soc a:hover{
+      background:var(--coral); border-color:var(--coral); color:#ffffff;
+      transform:translateY(-3px);
+    }
+    .cdep-footer .f-link{ color:rgba(255,255,255,0.85); text-decoration:none; transition:color 0.2s ease; }
+    .cdep-footer .f-link:hover{ color:var(--yellow); }
+    .cdep-footer .f-bottom span:last-child{ color:var(--yellow); font-weight:700; }
+    @media (max-width:640px){
+      .cdep-footer [data-r="side"]{ grid-template-columns:1fr !important; }
+    }
+  </style>
+  <div style="max-width:1240px; margin:0 auto; position:relative">
+    <div data-r="side" style="display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 44px; padding-bottom: 38px; border-bottom: 1px solid rgba(255,255,255,0.18)">
+      <div>
+        <a href="#top" class="f-logo">
+          <img src="assets/empower-white.png" alt="EMpower – The Emerging Markets Foundation" style="height: 76px; width: 190px; display: block; margin-bottom: 32px">
+        </a>
+        <div style="font-size:11.5px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#FFC955; margin-bottom:18px">Seguinos</div>
+        <div class="f-soc">
+          <a href="https://empowerweb.org" target="_blank" rel="noopener" aria-label="Sitio web" title="empowerweb.org">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/empowerweb/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@empower-theemergingmarkets7922" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/empower_foundation/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family: 'League Gothic', sans-serif; font-weight: 400; font-size: 30px; line-height: 1; text-transform: uppercase; color: #ffffff; margin: 0 0 22px">EMpower – The Emerging Markets Foundation</h3>
+        <p style="font-size: 12.2px; line-height: 1.72; color: rgba(255,255,255,0.78); margin: 0 0 18px; text-wrap: pretty">Trabajamos para transformar la vida de jóvenes en situación de vulnerabilidad en países de mercados emergentes. Lo hacemos a través de alianzas estratégicas con organizaciones locales que impulsan oportunidades en tres áreas clave: educación, salud y bienestar económico.</p>
+        <p style="font-size: 12.2px; line-height: 1.72; color: rgba(255,255,255,0.78); margin: 0; text-wrap: pretty">Con más de 20 años de trayectoria y presencia en 15 países, creemos que las organizaciones locales son actores fundamentales para generar cambios sostenibles en sus comunidades. Por eso, en lugar de implementar programas de forma directa, construimos asociaciones de largo plazo brindando financiamiento, fortalecimiento institucional, asistencia técnica y espacios de aprendizaje entre pares. Nuestro objetivo es potenciar la capacidad de las organizaciones para ampliar su impacto y contribuir a que más jóvenes desarrollen todo su potencial.</p>
+      </div>
+    </div>
+    <div class="f-bottom" style="padding-top:28px; display:flex; justify-content:center; font-size:13px; color:rgba(255,255,255,0.55)">
+      <span>© 2026 EMpower – The Emerging Markets Foundation</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ======================================================================
+     SCRIPTS — cada widget queda aislado en su propia función (IIFE) para
+     que no choquen entre sí nombres repetidos como parseCsv, render, etc.
+     ====================================================================== -->
+
+<script>
+// ---------- HERO: sincroniza con la pestaña "Encabezado" ----------
+(function(){
+  var SHEET_ID = "1Ga_xqJQjbzZbS97jvG394bIvDJ285eoy";
+  var LOCAL_FALLBACK = "cdep-hero-encabezado.csv";
+
+  function sheetCsvUrl(tab){
+    return "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(tab);
+  }
+
+  function parseCsv(text){
+    var rows = [], row = [], field = "", inQuotes = false;
+    for(var i = 0; i < text.length; i++){
+      var c = text[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(text[i + 1] === '"'){ field += '"'; i++; }
+          else { inQuotes = false; }
+        } else { field += c; }
+      } else if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field = ""; }
+      else if(c === '\n'){ row.push(field); field = ""; rows.push(row); row = []; }
+      else if(c === '\r'){ /* ignorar */ }
+      else { field += c; }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function rowsToObjects(rows){
+    if(!rows.length) return [];
+    var header = rows[0].map(function(h){ return h.trim(); });
+    return rows.slice(1)
+      .filter(function(r){ return r.some(function(v){ return v.trim() !== ""; }); })
+      .map(function(r){
+        var obj = {};
+        header.forEach(function(h, idx){ obj[h] = (r[idx] || "").trim(); });
+        return obj;
+      });
+  }
+
+  function fetchTab(tab, fallbackPath){
+    var useLive = SHEET_ID && SHEET_ID.indexOf("PEGAR_AQUI") === -1;
+    var url = useLive ? sheetCsvUrl(tab) : fallbackPath;
+    return fetch(url).then(function(r){
+      if(!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    }).catch(function(){
+      if(url === fallbackPath) throw new Error("No se pudo leer " + fallbackPath);
+      return fetch(fallbackPath).then(function(r){ return r.text(); });
+    });
+  }
+
+  function setPhoto(url){
+    if(!url || !/^https?:\/\//i.test(url)) return;
+    var bg = document.getElementById("hero-photo-bg");
+    var img = document.createElement("img");
+    img.src = url;
+    img.alt = "";
+    img.loading = "lazy";
+    bg.innerHTML = "";
+    bg.appendChild(img);
+  }
+
+  function renderTitle(titulo){
+    var el = document.getElementById("hero-widget-title");
+    el.innerHTML = "";
+    var words = (titulo || "").trim().split(/\s+/);
+    if(words.length <= 1){ el.textContent = titulo || ""; return; }
+    var last = words.pop();
+    el.append(words.join(" ") + " ");
+    var hl = document.createElement("span");
+    hl.className = "hl";
+    hl.textContent = last;
+    el.appendChild(hl);
+  }
+
+  var STAT_ACCENTS = ["var(--yellow)", "var(--coral)", "var(--purple)", "var(--blue)"];
+
+  function render(data){
+    var eyebrowEl = document.getElementById("hero-widget-eyebrow");
+    if(data.eyebrow){
+      eyebrowEl.textContent = data.eyebrow;
+      eyebrowEl.hidden = false;
+    } else {
+      eyebrowEl.hidden = true;
+    }
+    renderTitle(data.titulo);
+    document.getElementById("hero-widget-subtitle").textContent = data.subtitulo || "";
+    setPhoto(data.foto_url);
+
+    var stats = [1, 2, 3, 4]
+      .map(function(n){ return { valor: data["impacto" + n + "_valor"], label: data["impacto" + n + "_label"] }; })
+      .filter(function(s){ return s.valor && s.label; });
+
+    var statsEl = document.getElementById("hero-widget-stats");
+    statsEl.innerHTML = stats.map(function(s, i){
+      return '<div class="stat" style="--accent:' + STAT_ACCENTS[i % STAT_ACCENTS.length] + '">'
+        + '<div class="stat-num">' + s.valor + '</div>'
+        + '<div class="stat-label">' + s.label + '</div>'
+        + '</div>';
+    }).join("");
+  }
+
+  function syncFromSheet(){
+    fetchTab("Encabezado", LOCAL_FALLBACK).then(function(csvText){
+      var rows = rowsToObjects(parseCsv(csvText));
+      var header = {};
+      rows.forEach(function(r){ if(r.Campo) header[r.Campo] = r.Valor; });
+      render(header);
+    }).catch(function(err){
+      console.warn("Hero: no se pudo sincronizar con la spreadsheet ni con el respaldo local.", err);
+    });
+  }
+
+  syncFromSheet();
+})();
+</script>
+
+<script>
+// ---------- ORGANIZACIONES: sincroniza con "Encabezado" + "Organizaciones" ----------
+(function(){
+  var SHEET_ID = "1cK--0NpEe3alxuUJpnHju-bX8JsFaW-f";
+  var LOCAL_FALLBACK = {
+    encabezado: "cdep-organizaciones-encabezado.csv",
+    organizaciones: "cdep-organizaciones.csv"
+  };
+
+  function sheetCsvUrl(tab){
+    return "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(tab);
+  }
+
+  function parseCsv(text){
+    var rows = [], row = [], field = "", inQuotes = false;
+    for(var i = 0; i < text.length; i++){
+      var c = text[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(text[i + 1] === '"'){ field += '"'; i++; }
+          else { inQuotes = false; }
+        } else { field += c; }
+      } else if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field = ""; }
+      else if(c === '\n'){ row.push(field); field = ""; rows.push(row); row = []; }
+      else if(c === '\r'){ /* ignorar */ }
+      else { field += c; }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function rowsToObjects(rows){
+    if(!rows.length) return [];
+    var header = rows[0].map(function(h){ return h.trim(); });
+    return rows.slice(1)
+      .filter(function(r){ return r.some(function(v){ return v.trim() !== ""; }); })
+      .map(function(r){
+        var obj = {};
+        header.forEach(function(h, idx){ obj[h] = (r[idx] || "").trim(); });
+        return obj;
+      });
+  }
+
+  function fetchTab(tab, fallbackPath){
+    var useLive = SHEET_ID && SHEET_ID.indexOf("PEGAR_AQUI") === -1;
+    var url = useLive ? sheetCsvUrl(tab) : fallbackPath;
+    return fetch(url).then(function(r){
+      if(!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    }).catch(function(){
+      if(url === fallbackPath) throw new Error("No se pudo leer " + fallbackPath);
+      return fetch(fallbackPath).then(function(r){ return r.text(); });
+    });
+  }
+
+  var COLOR_MAP = { amarillo: "#ffc955", coral: "#fc7366", violeta: "#a789e7" };
+
+  function orgCard(org, defaultAccent){
+    var a = document.createElement("a");
+    a.className = "org-card";
+    a.href = "organizacion.html?slug=" + encodeURIComponent(org.slug);
+    var accent = COLOR_MAP[(org.color || "").trim().toLowerCase()] || defaultAccent;
+    a.style.setProperty("--accent", accent);
+
+    var logoBox = document.createElement("span");
+    logoBox.className = "org-logo";
+    if(org.logo_url){
+      var img = document.createElement("img");
+      img.src = org.logo_url;
+      img.alt = org.nombre;
+      img.loading = "lazy";
+      logoBox.appendChild(img);
+    } else {
+      var fb = document.createElement("span");
+      fb.className = "fallback";
+      fb.textContent = (org.nombre || "?").charAt(0);
+      logoBox.appendChild(fb);
+    }
+
+    var name = document.createElement("span");
+    name.className = "org-name";
+    name.textContent = org.nombre;
+
+    a.appendChild(logoBox);
+    a.appendChild(name);
+    return a;
+  }
+
+  function renderGrid(containerId, orgs, defaultAccent){
+    var grid = document.getElementById(containerId);
+    grid.innerHTML = "";
+    if(!orgs.length){
+      var p = document.createElement("p");
+      p.className = "empty-msg";
+      p.textContent = "Todavía no hay organizaciones cargadas en esta categoría.";
+      grid.appendChild(p);
+      return;
+    }
+    orgs.forEach(function(org){ grid.appendChild(orgCard(org, defaultAccent)); });
+  }
+
+  function renderTitle(titulo){
+    var el = document.getElementById("org-widget-title");
+    el.innerHTML = "";
+    var words = (titulo || "").trim().split(/\s+/);
+    if(words.length <= 1){ el.textContent = titulo || ""; return; }
+    var last = words.pop();
+    el.append(words.join(" ") + " ");
+    var hl = document.createElement("span");
+    hl.className = "hl";
+    hl.textContent = last;
+    el.appendChild(hl);
+  }
+
+  function render(header, orgs){
+    renderTitle(header.titulo || "Organizaciones Socias");
+    document.getElementById("org-widget-subtitle").textContent = header.subtitulo || "";
+    document.getElementById("lbl-socias").textContent = header.etiqueta_socias || "";
+    document.getElementById("lbl-aliadas").textContent = header.etiqueta_aliadas || "";
+
+    var sortByOrden = function(a, b){ return (parseFloat(a.orden) || 0) - (parseFloat(b.orden) || 0); };
+    var socias = orgs.filter(function(o){ return (o.tipo || "").toLowerCase() === "socia"; }).sort(sortByOrden);
+    var aliadas = orgs.filter(function(o){ return (o.tipo || "").toLowerCase() === "aliada"; }).sort(sortByOrden);
+
+    renderGrid("grid-socias", socias, "#fc7366");
+    renderGrid("grid-aliadas", aliadas, "#fc7366");
+  }
+
+  function syncFromSheet(){
+    Promise.all([
+      fetchTab("Encabezado", LOCAL_FALLBACK.encabezado),
+      fetchTab("Organizaciones", LOCAL_FALLBACK.organizaciones)
+    ]).then(function(results){
+      var headerRows = rowsToObjects(parseCsv(results[0]));
+      var orgRows = rowsToObjects(parseCsv(results[1]));
+
+      var header = {};
+      headerRows.forEach(function(r){ if(r.Campo) header[r.Campo] = r.Valor; });
+
+      var orgs = orgRows.filter(function(r){ return r.slug && r.nombre; });
+
+      render(header, orgs);
+    }).catch(function(err){
+      console.warn("Organizaciones: no se pudo sincronizar con la spreadsheet ni con el respaldo local.", err);
+    });
+  }
+
+  syncFromSheet();
+})();
+</script>
+
+<script>
+// ---------- AGENDA: sincroniza con "Encabezado" + "Fechas" ----------
+(function(){
+  var SHEET_ID = "1qfH7i61SqPLytmaFqSwM7NIukXgK7tmbzB1ue0A32Ic";
+
+  function sheetCsvUrl(tab){
+    return "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(tab);
+  }
+
+  function parseCsv(text){
+    var rows = [], row = [], field = "", inQuotes = false;
+    for(var i = 0; i < text.length; i++){
+      var c = text[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(text[i + 1] === '"'){ field += '"'; i++; }
+          else { inQuotes = false; }
+        } else { field += c; }
+      } else if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field = ""; }
+      else if(c === '\n'){ row.push(field); field = ""; rows.push(row); row = []; }
+      else if(c === '\r'){ /* ignorar */ }
+      else { field += c; }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function rowsToObjects(rows){
+    if(!rows.length) return [];
+    var header = rows[0].map(function(h){ return h.trim(); });
+    return rows.slice(1)
+      .filter(function(r){ return r.some(function(v){ return v.trim() !== ""; }); })
+      .map(function(r){
+        var obj = {};
+        header.forEach(function(h, idx){ obj[h] = (r[idx] || "").trim(); });
+        return obj;
+      });
+  }
+
+  function setPhoto(url){
+    if(!url || !/^https?:\/\//i.test(url)) return;
+    var figure = document.getElementById("agenda-widget-photo");
+    var img = document.createElement("img");
+    img.src = url;
+    img.alt = "Foto de la comunidad CdeP";
+    img.loading = "lazy";
+    figure.innerHTML = "";
+    figure.appendChild(img);
+  }
+
+  function render(data){
+    var titleEl = document.getElementById("agenda-widget-title");
+    titleEl.innerHTML = "";
+    var titulo = data.titulo || "";
+    var parts = titulo.split("CdeP");
+    titleEl.append(parts[0] || "");
+    if(titulo.indexOf("CdeP") !== -1){
+      var hl = document.createElement("span");
+      hl.className = "hl";
+      hl.textContent = "CdeP";
+      titleEl.appendChild(hl);
+      titleEl.append(parts[1] || "");
+    } else {
+      titleEl.textContent = titulo;
+    }
+    document.getElementById("agenda-widget-subtitle").textContent = data.subtitulo || "";
+    setPhoto(data.foto_url);
+
+    var list = document.getElementById("agenda-list");
+    list.innerHTML = "";
+
+    data.fechas.forEach(function(f){
+      var card = document.createElement("article");
+      card.className = "card";
+
+      var badge = document.createElement("span");
+      badge.className = "date-badge";
+      badge.textContent = String(f.dia).padStart(2, "0") + " " + f.mes;
+
+      var h3 = document.createElement("h3");
+      h3.textContent = f.titulo;
+      var p = document.createElement("p");
+      p.textContent = f.descripcion;
+
+      card.appendChild(badge);
+      card.appendChild(h3);
+      card.appendChild(p);
+      list.appendChild(card);
+    });
+  }
+
+  function syncFromSheet(){
+    Promise.all([
+      fetch(sheetCsvUrl("Encabezado")).then(function(r){ return r.text(); }),
+      fetch(sheetCsvUrl("Fechas")).then(function(r){ return r.text(); })
+    ]).then(function(results){
+      var headerRows = rowsToObjects(parseCsv(results[0]));
+      var fechasRows = rowsToObjects(parseCsv(results[1]));
+
+      var header = {};
+      headerRows.forEach(function(r){ if(r.Campo) header[r.Campo] = r.Valor; });
+
+      var fechas = fechasRows
+        .filter(function(r){ return r.dia && r.titulo; })
+        .map(function(r){
+          return { dia: r.dia, mes: r.mes, titulo: r.titulo, descripcion: r.descripcion };
+        });
+
+      render({
+        titulo: header.titulo || "",
+        subtitulo: header.subtitulo || "",
+        foto_url: header.foto_url || "",
+        fechas: fechas
+      });
+    }).catch(function(err){
+      console.warn("Agenda: no se pudo sincronizar con la spreadsheet.", err);
+    });
+  }
+
+  syncFromSheet();
+})();
+</script>
+
+<script>
+// ---------- MATERIALES: sincroniza con "Encabezado" + "Temas" + "Bloques" ----------
+(function(){
+  var SHEET_ID = "1aThK4YCzL_8qhquWH0JToQ-Rkp8dnmrb";
+  var LOCAL_FALLBACK = {
+    encabezado: "cdep-materiales-encabezado.csv",
+    temas: "cdep-materiales-temas.csv",
+    bloques: "cdep-materiales-bloques.csv"
+  };
+
+  function sheetCsvUrl(tab){
+    return "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(tab);
+  }
+
+  function parseCsv(text){
+    var rows = [], row = [], field = "", inQuotes = false;
+    for(var i = 0; i < text.length; i++){
+      var c = text[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(text[i + 1] === '"'){ field += '"'; i++; }
+          else { inQuotes = false; }
+        } else { field += c; }
+      } else if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field = ""; }
+      else if(c === '\n'){ row.push(field); field = ""; rows.push(row); row = []; }
+      else if(c === '\r'){ /* ignorar */ }
+      else { field += c; }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function rowsToObjects(rows){
+    if(!rows.length) return [];
+    var header = rows[0].map(function(h){ return h.trim(); });
+    return rows.slice(1)
+      .filter(function(r){ return r.some(function(v){ return v.trim() !== ""; }); })
+      .map(function(r){
+        var obj = {};
+        header.forEach(function(h, idx){ obj[h] = (r[idx] || "").trim(); });
+        return obj;
+      });
+  }
+
+  function fetchTab(tab, fallbackPath){
+    var useLive = SHEET_ID && SHEET_ID.indexOf("PEGAR_AQUI") === -1;
+    var url = useLive ? sheetCsvUrl(tab) : fallbackPath;
+    return fetch(url).then(function(r){
+      if(!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    }).catch(function(){
+      if(url === fallbackPath) throw new Error("No se pudo leer " + fallbackPath);
+      return fetch(fallbackPath).then(function(r){ return r.text(); });
+    });
+  }
+
+  function el(tag, className, text){
+    var e = document.createElement(tag);
+    if(className) e.className = className;
+    if(text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  function sortByOrden(a, b){ return (parseFloat(a.orden) || 0) - (parseFloat(b.orden) || 0); }
+
+  function renderTitle(titulo){
+    var target = document.getElementById("mat-widget-title");
+    target.innerHTML = "";
+    var words = (titulo || "").trim().split(/\s+/);
+    if(words.length <= 1){ target.textContent = titulo || ""; return; }
+    var last = words.pop();
+    target.append(words.join(" ") + " ");
+    var hl = document.createElement("span");
+    hl.className = "hl";
+    hl.textContent = last;
+    target.appendChild(hl);
+  }
+
+  function temaCard(tema, i){
+    var a = document.createElement("a");
+    a.className = "tema-card";
+    a.href = "tema.html?slug=" + encodeURIComponent(tema.slug);
+
+    a.appendChild(el("div", "tema-num", String(i + 1).padStart(2, "0")));
+    a.appendChild(el("h3", "tema-name", tema.titulo));
+    var arrowRow = el("div", "tema-arrow-row");
+    var arrow = el("span", "tema-arrow", "→");
+    arrow.setAttribute("aria-hidden", "true");
+    arrowRow.appendChild(arrow);
+    a.appendChild(arrowRow);
+    return a;
+  }
+
+  function renderTemas(temas){
+    var list = document.getElementById("tema-list");
+    list.innerHTML = "";
+    if(!temas.length){
+      var p = el("p", "empty-msg", "Todavía no hay temas cargados.");
+      list.appendChild(p);
+      return;
+    }
+    temas.sort(sortByOrden).forEach(function(t, i){ list.appendChild(temaCard(t, i)); });
+  }
+
+  function blockCard(b, i){
+    var estilo = (b.estilo || "claro").trim().toLowerCase() === "oscuro" ? "oscuro" : "claro";
+    var card = el("div", "block " + estilo);
+    card.style.setProperty("--accent", estilo === "oscuro" ? "var(--navy)" : "var(--blue)");
+
+    var head = el("div", "block-head");
+    var imgBox = el("span", "block-img");
+    if(b.imagen_url){
+      var img = document.createElement("img");
+      img.src = b.imagen_url;
+      img.alt = b.titulo || "";
+      img.loading = "lazy";
+      imgBox.appendChild(img);
+    } else {
+      imgBox.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="10" r="1.5"/><path d="M21 16l-5.5-5.5L3 19"/></svg>';
+    }
+    head.appendChild(imgBox);
+    var textBox = el("div");
+    textBox.appendChild(el("div", "block-cat", b.categoria || ""));
+    textBox.appendChild(el("h3", "block-title", b.titulo || ""));
+    head.appendChild(textBox);
+    card.appendChild(head);
+
+    if(b.descripcion) card.appendChild(el("p", "block-desc", b.descripcion));
+
+    if(b.boton_texto && b.boton_link){
+      var btn = document.createElement("a");
+      btn.className = "block-btn";
+      btn.href = b.boton_link;
+      btn.target = "_blank";
+      btn.rel = "noopener";
+      btn.textContent = b.boton_texto;
+      card.appendChild(btn);
+    }
+    return card;
+  }
+
+  function renderBlocks(bloques){
+    var wrap = document.getElementById("blocks");
+    wrap.innerHTML = "";
+    bloques.sort(sortByOrden).forEach(function(b, i){ wrap.appendChild(blockCard(b, i)); });
+  }
+
+  function render(header, temas, bloques){
+    renderTitle(header.titulo || "Materiales por tema");
+    document.getElementById("mat-widget-subtitle").textContent = header.subtitulo || "";
+    renderTemas(temas);
+    renderBlocks(bloques);
+  }
+
+  function syncFromSheet(){
+    Promise.all([
+      fetchTab("Encabezado", LOCAL_FALLBACK.encabezado),
+      fetchTab("Temas", LOCAL_FALLBACK.temas),
+      fetchTab("Bloques", LOCAL_FALLBACK.bloques)
+    ]).then(function(results){
+      var headerRows = rowsToObjects(parseCsv(results[0]));
+      var temaRows = rowsToObjects(parseCsv(results[1]));
+      var bloqueRows = rowsToObjects(parseCsv(results[2]));
+
+      var header = {};
+      headerRows.forEach(function(r){ if(r.Campo) header[r.Campo] = r.Valor; });
+
+      var temas = temaRows.filter(function(r){ return r.slug && r.titulo; });
+      var bloques = bloqueRows.filter(function(r){ return r.titulo; });
+
+      render(header, temas, bloques);
+    }).catch(function(err){
+      console.warn("Materiales: no se pudo sincronizar con la spreadsheet ni con el respaldo local.", err);
+    });
+  }
+
+  syncFromSheet();
+})();
+</script>
+
+<script>
+// ---------- HISTORIAS DE COMUNIDAD: sincroniza con "Historias" + "Encabezado" ----------
+(function(){
+  "use strict";
+
+  var SHEET_ID = "1_GGqRv0ts2wRg3rF5QsvpO48D34UKij-brSlXzncFU4";
+  var CONFIG = {
+    sheetCsvUrl: "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=Historias",
+    headerCsvUrl: "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=Encabezado",
+    title: "",
+    description: ""
+  };
+
+  var FALLBACK_STORIES = [
+    {name:"Alina", org:"Fundación Reciduca", title:"Animarse a preguntar puede abrir oportunidades", photoUrl:"", quote:"Sigo siendo una persona curiosa, pero que ahora tiene más iniciativa para ver y preguntar.", story:"Historia de ejemplo. Conectá tu Google Sheet en la constante CONFIG.sheetCsvUrl (arriba en el código) para que las historias reales reemplacen estos ejemplos automáticamente.\n\nPodés agregar más de un párrafo separándolos con una línea en blanco en la celda de la planilla.", link:"", order:0},
+    {name:"Kevin", org:"Fundación Formar", title:"Construir un proyecto de vida a medida", photoUrl:"", quote:"", story:"Historia de ejemplo. Conectá tu Google Sheet en la constante CONFIG.sheetCsvUrl (arriba en el código) para que las historias reales reemplacen estos ejemplos automáticamente.", link:"", order:1},
+    {name:"Jimena", org:"Chicas en Tecnología", title:"Comunidades que sostienen las trayectorias", photoUrl:"", quote:"", story:"Historia de ejemplo. Conectá tu Google Sheet en la constante CONFIG.sheetCsvUrl (arriba en el código) para que las historias reales reemplacen estos ejemplos automáticamente.", link:"", order:2}
+  ];
+
+  var els = {
+    gridWrap: document.getElementById("historiasGridWrap"),
+    footNote: document.getElementById("historiasFootNote"),
+    headlineText: document.getElementById("historiasHeadlineText"),
+    descText: document.getElementById("historiasDescText")
+  };
+
+  var state = { stories: [], usingFallback: true, mode: "loading" };
+  var carouselResizeHandler = null;
+
+  function initials(name){
+    var parts = (name || "").trim().split(/\s+/).filter(Boolean);
+    if(!parts.length) return "?";
+    var a = parts[0][0] || "";
+    var b = parts.length > 1 ? parts[parts.length-1][0] : "";
+    return (a+b).toUpperCase();
+  }
+  function slugify(s){
+    return String(s || "")
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .toLowerCase().trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "historia";
+  }
+  function normalizeHeader(h){
+    return String(h || "")
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .toLowerCase().replace(/[^a-z0-9]/g, "");
+  }
+
+  function fieldKey(headerNorm){
+    if(headerNorm.indexOf("nombre") !== -1) return "name";
+    if(headerNorm.indexOf("fundacion") !== -1 || headerNorm.indexOf("organizacion") !== -1) return "org";
+    if(headerNorm.indexOf("titulo") !== -1) return "title";
+    if(headerNorm.indexOf("foto") !== -1) return "photoUrl";
+    if(headerNorm.indexOf("link") !== -1) return "link";
+    if(headerNorm.indexOf("cita") !== -1 || headerNorm.indexOf("quote") !== -1) return "quote";
+    if(headerNorm.indexOf("historia") !== -1) return "story";
+    if(headerNorm.indexOf("orden") !== -1) return "order";
+    return null;
+  }
+  function rowsToStories(rows, fields){
+    var used = {};
+    var out = [];
+    rows.forEach(function(row, idx){
+      var story = {name:"", org:"", title:"", photoUrl:"", story:"", link:"", quote:"", order: idx};
+      Object.keys(row).forEach(function(header){
+        var key = fields[header];
+        if(!key) return;
+        var val = (row[header] == null ? "" : String(row[header])).trim();
+        if(key === "order"){
+          var n = parseFloat(val);
+          if(!isNaN(n)) story.order = n;
+        } else {
+          story[key] = val;
+        }
+      });
+      if(!story.name || !story.org || !story.title) return;
+      var base = slugify(story.name), slug = base, n = 2;
+      while(used[slug]){ slug = base + "-" + n; n++; }
+      used[slug] = true;
+      story.slug = slug;
+      out.push(story);
+    });
+    return out;
+  }
+
+  function renderHeadline(titulo){
+    var el = els.headlineText;
+    el.innerHTML = "";
+    var words = (titulo || "").trim().split(/\s+/);
+    if(words.length <= 1){ el.textContent = titulo || ""; return; }
+    var last = words.pop();
+    el.append(words.join(" ") + " ");
+    var hl = document.createElement("span");
+    hl.className = "hl";
+    hl.textContent = last;
+    el.appendChild(hl);
+  }
+
+  function render(){
+    renderHeadline(CONFIG.title);
+    els.descText.textContent = CONFIG.description;
+    renderGrid();
+  }
+
+  function renderGrid(){
+    els.gridWrap.innerHTML = "";
+
+    if(state.mode === "loading"){
+      var loading = document.createElement("div");
+      loading.className = "state-box";
+      loading.innerHTML = "<h2>Cargando historias…</h2>";
+      els.gridWrap.appendChild(loading);
+      els.footNote.hidden = true;
+      return;
+    }
+    if(state.mode === "error"){
+      var err = document.createElement("div");
+      err.className = "state-box";
+      var isFile = location.protocol === "file:";
+      var reason = isFile
+        ? "Estás abriendo este archivo directo desde tu compu (" + location.protocol + "//...). Los navegadores bloquean estos pedidos cuando la página no está servida por un sitio real. Subí el archivo a GitHub Pages (o cualquier hosting) y probá desde esa URL — ahí sí va a funcionar."
+        : "Detalle técnico: " + (state.errorDetail || "no se pudo leer la respuesta") + ". Revisá que <code>CONFIG.sheetCsvUrl</code> apunte a tu Google Sheet y que esté compartida como \"Cualquier persona con el enlace, Lector\".";
+      err.innerHTML = "<h2>No se pudo cargar la planilla</h2><p>" + reason + "</p>";
+      els.gridWrap.appendChild(err);
+      els.footNote.hidden = true;
+      return;
+    }
+
+    var stories = state.stories.slice().sort(function(a,b){ return (a.order||0) - (b.order||0); });
+
+    if(!stories.length){
+      var empty = document.createElement("div");
+      empty.className = "state-box";
+      empty.innerHTML = "<h2>Todavía no hay historias cargadas</h2><p>En cuanto se completen filas en la planilla (Nombre, Fundación y Título), van a aparecer acá como cajitas.</p>";
+      els.gridWrap.appendChild(empty);
+      els.footNote.hidden = true;
+      return;
+    }
+
+    var wrap = document.createElement("div");
+    wrap.className = "carousel-wrap";
+
+    var carousel = document.createElement("div");
+    carousel.className = "carousel";
+    stories.forEach(function(story){ carousel.appendChild(tileNode(story)); });
+    wrap.appendChild(carousel);
+
+    var prevBtn = document.createElement("button");
+    prevBtn.type = "button"; prevBtn.className = "carousel-arrow prev";
+    prevBtn.setAttribute("aria-label", "Historias anteriores");
+    prevBtn.innerHTML = "&#8592;";
+    var nextBtn = document.createElement("button");
+    nextBtn.type = "button"; nextBtn.className = "carousel-arrow next";
+    nextBtn.setAttribute("aria-label", "Historias siguientes");
+    nextBtn.innerHTML = "&#8594;";
+    wrap.appendChild(prevBtn);
+    wrap.appendChild(nextBtn);
+
+    els.gridWrap.appendChild(wrap);
+
+    function step(){ return Math.round(carousel.clientWidth * 0.85); }
+    function updateArrows(){
+      var scrollable = carousel.scrollWidth > carousel.clientWidth + 4;
+      prevBtn.hidden = nextBtn.hidden = !scrollable;
+      if(!scrollable) return;
+      prevBtn.disabled = carousel.scrollLeft <= 4;
+      nextBtn.disabled = carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 4;
+    }
+    prevBtn.addEventListener("click", function(){ carousel.scrollBy({left: -step(), behavior: "smooth"}); });
+    nextBtn.addEventListener("click", function(){ carousel.scrollBy({left: step(), behavior: "smooth"}); });
+    carousel.addEventListener("scroll", updateArrows);
+    updateArrows();
+    if(carouselResizeHandler) window.removeEventListener("resize", carouselResizeHandler);
+    carouselResizeHandler = updateArrows;
+    window.addEventListener("resize", carouselResizeHandler);
+
+    els.footNote.hidden = !state.usingFallback;
+    els.footNote.textContent = "Mostrando historias de ejemplo — conectá CONFIG.sheetCsvUrl para traer las reales.";
+  }
+
+  function tileNode(story){
+    var tile = document.createElement("a");
+    tile.className = "tile";
+    tile.href = "historia.html?slug=" + encodeURIComponent(story.slug);
+
+    if(story.photoUrl){
+      var img = document.createElement("img");
+      img.src = story.photoUrl;
+      img.alt = story.name ? ("Foto de " + story.name) : "";
+      img.loading = "lazy";
+      img.onerror = function(){ img.remove(); tile.insertBefore(initialsLayer(story), tile.firstChild); };
+      tile.appendChild(img);
+    } else {
+      tile.appendChild(initialsLayer(story));
+    }
+
+    var tint = document.createElement("div");
+    tint.className = "tile-tint";
+    tile.appendChild(tint);
+
+    var content = document.createElement("div");
+    content.className = "tile-content";
+
+    var title = document.createElement("h3");
+    title.className = "tile-title";
+    title.textContent = story.title || "";
+    content.appendChild(title);
+
+    var byline = document.createElement("p");
+    byline.className = "tile-byline";
+    byline.textContent = [story.name, story.org].filter(Boolean).join(" · ");
+    content.appendChild(byline);
+
+    var read = document.createElement("span");
+    read.className = "tile-read";
+    read.textContent = "Leer más →";
+    content.appendChild(read);
+
+    tile.appendChild(content);
+    return tile;
+  }
+  function initialsLayer(story){
+    var d = document.createElement("div");
+    d.className = "tile-initials";
+    d.textContent = initials(story.name);
+    return d;
+  }
+
+  function headerFieldKey(headerNorm){
+    if(headerNorm.indexOf("titulo") !== -1) return "title";
+    if(headerNorm.indexOf("descripcion") !== -1 || headerNorm.indexOf("subtitulo") !== -1) return "description";
+    return null;
+  }
+  function applyHeaderRows(rows){
+    rows.forEach(function(row){
+      var cells = Object.keys(row).map(function(k){ return row[k]; });
+      var campo = normalizeHeader(cells[0]);
+      var valor = (cells[1] == null ? "" : String(cells[1])).trim();
+      var key = headerFieldKey(campo);
+      if(key && valor) CONFIG[key] = valor;
+    });
+  }
+
+  function parseCsv(url){
+    return fetch(url).then(function(res){
+      if(!res.ok) throw new Error("http " + res.status);
+      return res.text();
+    }).then(function(text){
+      var cleaned = text.split(/\r\n|\n/).map(function(line){
+        return line.replace(/(,(?:""|))+$/g, "");
+      }).join("\n");
+      return Papa.parse(cleaned, {header: true, skipEmptyLines: true});
+    }).catch(function(e){
+      state.errorDetail = (e && e.message) ? e.message : String(e);
+      return null;
+    });
+  }
+
+  function boot(){
+    var hasStoriesUrl = CONFIG.sheetCsvUrl && CONFIG.sheetCsvUrl.indexOf("http") === 0;
+    var hasHeaderUrl = CONFIG.headerCsvUrl && CONFIG.headerCsvUrl.indexOf("http") === 0;
+
+    if(!hasStoriesUrl){
+      state.stories = FALLBACK_STORIES.map(function(s){ return Object.assign({slug: slugify(s.name)}, s); });
+      state.usingFallback = true;
+      state.mode = "grid";
+      render();
+      return;
+    }
+
+    Promise.all([
+      parseCsv(CONFIG.sheetCsvUrl),
+      hasHeaderUrl ? parseCsv(CONFIG.headerCsvUrl) : Promise.resolve(null)
+    ]).then(function(results){
+      var storiesRes = results[0];
+      var headerRes = results[1];
+
+      if(!storiesRes){
+        state.mode = "error";
+        state.stories = [];
+        render();
+        return;
+      }
+      if(headerRes) applyHeaderRows(headerRes.data);
+
+      var headers = storiesRes.meta.fields || [];
+      var fields = {};
+      headers.forEach(function(h){ fields[h] = fieldKey(normalizeHeader(h)); });
+      var stories = rowsToStories(storiesRes.data, fields);
+      state.stories = stories.length ? stories : FALLBACK_STORIES.map(function(s){ return Object.assign({slug: slugify(s.name)}, s); });
+      state.usingFallback = stories.length === 0;
+      state.mode = "grid";
+      render();
+    });
+  }
+
+  render();
+  boot();
+})();
+</script>
+
+</body>
+</html>
