@@ -71,7 +71,6 @@
     min-height: 68vh;
     display: flex;
     align-items: flex-end;
-    padding: 56px 60px 64px;
     background: var(--navy);
   }
 
@@ -91,8 +90,15 @@
       linear-gradient(90deg, rgba(0,34,87,0.6) 0%, rgba(0,34,87,0.05) 60%);
   }
 
-  #top .hero-content{
+  #top .section-inner{
     position: relative; z-index: 2;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 56px 20px 64px;
+  }
+
+  #top .hero-content{
     max-width: 700px;
   }
 
@@ -165,7 +171,8 @@
   }
 
   @media (max-width: 900px){
-    #top{ padding: 40px 24px 40px; min-height: 60vh; }
+    #top{ min-height: 60vh; }
+    #top .section-inner{ padding: 40px 24px 40px; }
     #top .hero-content{ max-width: none; }
   }
   @media (max-width: 480px){
@@ -194,7 +201,7 @@
   :root[data-theme="dark"] #organizaciones{ background: #1c1210; }
 
   #organizaciones .section-inner{
-    max-width: 1180px;
+    max-width: 1280px;
     margin: 0 auto;
     padding-inline: 20px;
     display: flex;
@@ -471,7 +478,7 @@
      (antes "5. Materiales.html")
      ====================================================================== -->
 <style>
-  #materiales{ position: relative; overflow: hidden; padding: 56px 20px 72px; background: #eaf3fa; }
+  #materiales{ position: relative; overflow: hidden; padding-block: 56px 72px; background: #eaf3fa; }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]) #materiales{ background: #081a2c; }
   }
@@ -484,8 +491,9 @@
 
   #materiales .wrap{
     position: relative; z-index: 1;
-    max-width: 1180px;
+    max-width: 1280px;
     margin: 0 auto;
+    padding-inline: 20px;
     display: flex;
     flex-direction: column;
     gap: 50px;
@@ -628,12 +636,12 @@
   }
 
   @media (max-width: 900px){
-    #materiales{ padding: 48px 20px 56px; }
+    #materiales{ padding-block: 48px 56px; }
     #materiales .top{ grid-template-columns: 1fr; gap: 26px; }
     #materiales .blocks{ grid-template-columns: 1fr; }
   }
   @media (max-width: 560px){
-    #materiales{ padding: 36px 20px 44px; }
+    #materiales{ padding-block: 36px 44px; }
     #materiales .wrap{ gap: 40px; }
     #materiales .tema-grid{ grid-template-columns: 1fr 1fr; gap: 16px; }
   }
@@ -658,7 +666,7 @@
   #historias a{ color:inherit; }
   #historias img{ max-width:100%; display:block; }
 
-  #historias .section-inner{ max-width:1180px; margin:0 auto; padding-inline:20px; }
+  #historias .section-inner{ max-width:1280px; margin:0 auto; padding-inline:20px; }
 
   #historias .header-grid{
     display:flex; flex-direction:column; gap:16px;
@@ -778,7 +786,7 @@
   </style>
   <div data-r="hdrbar" style="position:relative; max-width:1240px; margin:0 auto; padding:14px 32px; display:flex; align-items:center; justify-content:space-between; gap:32px">
     <a href="#top" class="logo-link" style="display:flex; align-items:center; gap:14px">
-      <img src="assets/empower-white.png" alt="EMpower" style="height: 50px; width: 126px; display: block">
+      <img src="images/logo-empower.png" alt="EMpower" style="height: 50px; width: 126px; display: block">
     </a>
     <nav data-r="nav" style="display:flex; align-items:center; gap:28px; font-size:13.5px; font-weight:600; letter-spacing:0.02em">
       <a href="#organizaciones" class="nav-link">Organizaciones</a>
@@ -805,11 +813,13 @@
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
 
-  <div class="hero-content">
-    <div class="eyebrow" id="hero-widget-eyebrow" hidden></div>
-    <h1 class="title" id="hero-widget-title"></h1>
-    <p class="desc" id="hero-widget-subtitle"></p>
-    <div class="stats" id="hero-widget-stats"></div>
+  <div class="section-inner">
+    <div class="hero-content">
+      <div class="eyebrow" id="hero-widget-eyebrow" hidden></div>
+      <h1 class="title" id="hero-widget-title"></h1>
+      <p class="desc" id="hero-widget-subtitle"></p>
+      <div class="stats" id="hero-widget-stats"></div>
+    </div>
   </div>
 </section>
 
@@ -938,7 +948,7 @@
     <div data-r="side" style="display: grid; grid-template-columns: 200px minmax(0,1fr); gap: 44px; padding-bottom: 38px; border-bottom: 1px solid rgba(255,255,255,0.18)">
       <div>
         <a href="#top" class="f-logo">
-          <img src="assets/empower-white.png" alt="EMpower – The Emerging Markets Foundation" style="height: 76px; width: 190px; display: block; margin-bottom: 32px">
+          <img src="images/logo-empower.png" alt="EMpower – The Emerging Markets Foundation" style="height: 76px; width: 190px; display: block; margin-bottom: 32px">
         </a>
         <div style="font-size:11.5px; font-weight:800; letter-spacing:0.2em; text-transform:uppercase; color:#FFC955; margin-bottom:18px">Seguinos</div>
         <div class="f-soc">
