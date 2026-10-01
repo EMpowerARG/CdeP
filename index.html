@@ -283,8 +283,6 @@
     align-items: flex-end;
     min-height: 130px;
   }
-  #organizaciones .org-card.has-photo .org-logo{ background: var(--white); }
-  #organizaciones .org-card.has-photo .org-name{ color: var(--white); text-shadow: 0 1px 3px rgba(0,0,0,0.35); }
   #organizaciones .empty-msg{ font-size: 0.86rem; color: var(--muted); padding: 8px 0; }
 
   @media (prefers-reduced-motion: reduce){
@@ -1153,20 +1151,30 @@
   function orgCard(org, defaultAccent){
     var a = document.createElement("a");
     a.className = "org-card";
-    a.href = "organizacion.html?slug=" + encodeURIComponent(org.slug);
+    // Con "link_externo" cargado → va directo a esa URL (en pestaña nueva).
+    // Sin link_externo → página de detalle organizacion.html.
+    if(org.link_externo){
+      a.href = org.link_externo;
+      a.target = "_blank";
+      a.rel = "noopener";
+    } else {
+      a.href = "organizacion.html?slug=" + encodeURIComponent(org.slug);
+    }
     var accent = COLOR_MAP[(org.color || "").trim().toLowerCase()] || defaultAccent;
     a.style.setProperty("--accent", accent);
+    // Con imagen: solo la foto (sin degradé ni título visible).
+    // Sin imagen: tarjeta blanca con el nombre de la organización.
     if(org.imagen_url){
       a.classList.add("has-photo");
-      a.style.backgroundImage = 'linear-gradient(180deg, rgba(0,34,87,0.15) 0%, rgba(0,34,87,0.85) 100%), url("' + org.imagen_url + '")';
+      a.style.backgroundImage = 'url("' + org.imagen_url + '")';
+      a.setAttribute("aria-label", org.nombre);
+      a.title = org.nombre;
+    } else {
+      var name = document.createElement("span");
+      name.className = "org-name";
+      name.textContent = org.nombre;
+      a.appendChild(name);
     }
-
-
-    var name = document.createElement("span");
-    name.className = "org-name";
-    name.textContent = org.nombre;
-
-    a.appendChild(name);
     return a;
   }
 
