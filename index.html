@@ -511,7 +511,8 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background: var(--card-bg);
+    min-height: 150px;
+    background-color: var(--card-bg);
     border-top: 6px solid var(--accent, var(--blue));
     box-shadow: 5px 5px 0 var(--border);
     padding: 18px 18px 18px;
@@ -526,6 +527,11 @@
     transform: translateY(-5px) rotate(0deg);
     box-shadow: 7px 9px 0 var(--border);
   }
+  #materiales .tema-card.has-photo{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
   #materiales .tema-num{
     font-family: 'League Gothic', sans-serif;
     font-size: 1.5rem;
@@ -533,6 +539,7 @@
     letter-spacing: 0.02em;
     margin-bottom: 8px;
   }
+  #materiales .tema-card.has-photo .tema-num{ color: rgba(255,255,255,0.8); }
   #materiales .tema-name{
     margin: 0;
     font-size: 1.1rem;
@@ -541,8 +548,10 @@
     color: var(--text);
     flex: 1;
   }
+  #materiales .tema-card.has-photo .tema-name{ color: var(--white); }
   #materiales .tema-arrow-row{ margin-top: 14px; display: flex; justify-content: flex-end; }
   #materiales .tema-arrow{ font-size: 1.15rem; color: var(--text); transition: transform 0.18s ease; }
+  #materiales .tema-card.has-photo .tema-arrow{ color: var(--white); }
   #materiales .tema-card:hover .tema-arrow{ transform: translateX(5px); }
 
   #materiales .blocks{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -1430,6 +1439,10 @@
     var a = document.createElement("a");
     a.className = "tema-card";
     a.href = "tema.html?slug=" + encodeURIComponent(tema.slug);
+    if(tema.imagen_url){
+      a.classList.add("has-photo");
+      a.style.backgroundImage = 'linear-gradient(180deg, rgba(0,34,87,0.15) 0%, rgba(0,34,87,0.85) 100%), url("' + tema.imagen_url + '")';
+    }
 
     a.appendChild(el("div", "tema-num", String(i + 1).padStart(2, "0")));
     a.appendChild(el("h3", "tema-name", tema.titulo));
