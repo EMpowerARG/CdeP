@@ -22,6 +22,7 @@
     --white: #fff;
     --page-bg: var(--cream);
     --card-bg: var(--white);
+    --text: var(--navy);
     color-scheme: light;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -32,6 +33,7 @@
       --card-bg: #0d2350;
       --muted: #a9b7cc;
       --border: rgba(238,243,248,0.16);
+      --text: #eef3f8;
       color-scheme: dark;
     }
   }
@@ -40,6 +42,7 @@
     --card-bg: #0d2350;
     --muted: #a9b7cc;
     --border: rgba(238,243,248,0.16);
+    --text: #eef3f8;
     color-scheme: dark;
   }
 
@@ -48,7 +51,7 @@
   body{
     margin: 0;
     background: var(--page-bg);
-    color: var(--navy);
+    color: var(--text);
     font-family: 'Open Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
@@ -222,7 +225,7 @@
     line-height: 0.94;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    color: var(--navy);
+    color: var(--text);
     text-wrap: balance;
   }
   #organizaciones .title .hl{
@@ -284,13 +287,13 @@
   #organizaciones .org-logo img{ max-width: 100%; max-height: 100%; object-fit: contain; }
   #organizaciones .org-logo .fallback{
     font-family: 'League Gothic', sans-serif;
-    font-size: 1.2rem; color: var(--navy);
+    font-size: 1.2rem; color: var(--text);
   }
   #organizaciones .org-name{
     font-size: 0.9rem;
     font-weight: 800;
     line-height: 1.26;
-    color: var(--navy);
+    color: var(--text);
   }
   #organizaciones .empty-msg{ font-size: 0.86rem; color: var(--muted); padding: 8px 0; }
 
@@ -349,7 +352,7 @@
     line-height: 0.92;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    color: var(--navy);
+    color: var(--text);
     text-wrap: balance;
   }
   #encuentros .title .hl{
@@ -405,7 +408,7 @@
     font-size: 2rem;
     line-height: 1;
     letter-spacing: 0.01em;
-    color: var(--navy);
+    color: var(--text);
   }
   #encuentros .agenda-head span{
     font-size: 0.74rem;
@@ -448,7 +451,7 @@
     font-weight: 800;
     font-size: 1.2rem;
     line-height: 1.28;
-    color: var(--navy);
+    color: var(--text);
   }
   #encuentros .card p{
     margin: 0;
@@ -509,7 +512,7 @@
     line-height: 0.9;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    color: var(--navy);
+    color: var(--text);
     text-wrap: balance;
   }
   #materiales .title .hl{
@@ -565,11 +568,11 @@
     font-size: 1.1rem;
     font-weight: 800;
     line-height: 1.28;
-    color: var(--navy);
+    color: var(--text);
     flex: 1;
   }
   #materiales .tema-arrow-row{ margin-top: 14px; display: flex; justify-content: flex-end; }
-  #materiales .tema-arrow{ font-size: 1.15rem; color: var(--navy); transition: transform 0.18s ease; }
+  #materiales .tema-arrow{ font-size: 1.15rem; color: var(--text); transition: transform 0.18s ease; }
   #materiales .tema-card:hover .tema-arrow{ transform: translateX(5px); }
 
   #materiales .blocks{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -602,7 +605,7 @@
     text-transform: uppercase; color: var(--blue);
   }
   #materiales .block.oscuro .block-cat{ color: var(--yellow); }
-  #materiales .block-title{ margin: 4px 0 0; font-size: 1.24rem; font-weight: 800; line-height: 1.3; color: var(--navy); }
+  #materiales .block-title{ margin: 4px 0 0; font-size: 1.24rem; font-weight: 800; line-height: 1.3; color: var(--text); }
   #materiales .block.oscuro .block-title{ color: var(--white); }
   #materiales .block-desc{ margin: 0; font-size: 0.87rem; line-height: 1.62; color: var(--muted); }
   #materiales .block.oscuro .block-desc{ color: rgba(255,255,255,0.74); }
@@ -655,7 +658,7 @@
      (antes "6. Historias.html"; tiene su propia paleta navy/dorado)
      ====================================================================== -->
 <style>
-  #historias{ background:#fdf6e6; color:var(--navy); padding-block:56px 72px; }
+  #historias{ background:#fdf6e6; color:var(--text); padding-block:56px 72px; }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]) #historias{ background:#1c1708; }
   }
@@ -680,7 +683,7 @@
     line-height: 0.92;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    color: var(--navy);
+    color: var(--text);
     text-wrap: balance;
   }
   #historias .headline .hl{
@@ -734,7 +737,7 @@
   #historias .tile-read{ font-size:12.5px; font-weight:700; color:var(--yellow); letter-spacing:.02em; }
 
   #historias .state-box{ border:1px dashed var(--border); padding:56px 24px; text-align:center; color:var(--muted); }
-  #historias .state-box h2{ font-size:1.3rem; color:var(--navy); margin:0 0 8px; text-transform:none; }
+  #historias .state-box h2{ font-size:1.3rem; color:var(--text); margin:0 0 8px; text-transform:none; }
   #historias .state-box p{ max-width:48ch; margin:0 auto; font-size:0.88rem; line-height:1.5; }
   #historias .state-box code{ background:rgba(0,34,87,.06); padding:1px 6px; }
 

@@ -20,6 +20,7 @@
     --white: #fff;
     --page-bg: var(--cream);
     --card-bg: var(--white);
+    --text: var(--navy);
     color-scheme: light;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -30,6 +31,7 @@
       --card-bg: #0d2350;
       --muted: #a9b7cc;
       --border: rgba(238,243,248,0.16);
+      --text: #eef3f8;
       color-scheme: dark;
     }
   }
@@ -38,6 +40,7 @@
     --card-bg: #0d2350;
     --muted: #a9b7cc;
     --border: rgba(238,243,248,0.16);
+    --text: #eef3f8;
     color-scheme: dark;
   }
 
@@ -45,13 +48,11 @@
   body{
     margin: 0;
     background: var(--page-bg);
-    color: var(--navy);
+    color: var(--text);
     font-family: 'Open Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  :root:not([data-theme="light"]) body{ color: #eef3f8; }
-  :root[data-theme="dark"] body{ color: #eef3f8; }
   a{ color: var(--blue); }
   :focus-visible{ outline: 2px solid var(--blue); outline-offset: 2px; }
 
@@ -67,7 +68,7 @@
   /* ---------- back link ---------- */
   .back-link{
     position: relative;
-    font-size: 0.78rem; font-weight: 800; color: var(--navy);
+    font-size: 0.78rem; font-weight: 800; color: var(--text);
     text-decoration: none; display: inline-flex; align-items: center; gap: 7px;
     width: fit-content; padding-bottom: 3px;
     transition: color 0.18s ease, transform 0.18s ease;
@@ -144,7 +145,7 @@
     line-height: 0.94;
     letter-spacing: 0.005em;
     text-transform: uppercase;
-    color: var(--navy);
+    color: var(--text);
     text-wrap: balance;
   }
   .org-desc{ margin: 16px 0 0; max-width: 74ch; font-size: 0.95rem; line-height: 1.75; color: var(--muted); }
@@ -180,7 +181,7 @@
   }
   .other-orgs-list{ display: flex; flex-wrap: wrap; gap: 6px 22px; }
   .other-orgs-list a{
-    font-size: 0.82rem; text-decoration: none; color: var(--navy);
+    font-size: 0.82rem; text-decoration: none; color: var(--text);
     padding-bottom: 1px;
     border-bottom: 1px solid transparent;
     transition: color 0.15s ease, border-color 0.15s ease;
