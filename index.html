@@ -273,6 +273,18 @@
     line-height: 1.26;
     color: var(--text);
   }
+  /* Tarjeta con imagen de fondo (columna "imagen_url" de la spreadsheet) */
+  #organizaciones .org-card.has-photo{
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-color: transparent;
+    border-top-color: var(--accent, var(--yellow));
+    align-items: flex-end;
+    min-height: 130px;
+  }
+  #organizaciones .org-card.has-photo .org-logo{ background: var(--white); }
+  #organizaciones .org-card.has-photo .org-name{ color: var(--white); text-shadow: 0 1px 3px rgba(0,0,0,0.35); }
   #organizaciones .empty-msg{ font-size: 0.86rem; color: var(--muted); padding: 8px 0; }
 
   @media (prefers-reduced-motion: reduce){
@@ -1144,27 +1156,16 @@
     a.href = "organizacion.html?slug=" + encodeURIComponent(org.slug);
     var accent = COLOR_MAP[(org.color || "").trim().toLowerCase()] || defaultAccent;
     a.style.setProperty("--accent", accent);
-
-    var logoBox = document.createElement("span");
-    logoBox.className = "org-logo";
-    if(org.logo_url){
-      var img = document.createElement("img");
-      img.src = org.logo_url;
-      img.alt = org.nombre;
-      img.loading = "lazy";
-      logoBox.appendChild(img);
-    } else {
-      var fb = document.createElement("span");
-      fb.className = "fallback";
-      fb.textContent = (org.nombre || "?").charAt(0);
-      logoBox.appendChild(fb);
+    if(org.imagen_url){
+      a.classList.add("has-photo");
+      a.style.backgroundImage = 'linear-gradient(180deg, rgba(0,34,87,0.15) 0%, rgba(0,34,87,0.85) 100%), url("' + org.imagen_url + '")';
     }
+
 
     var name = document.createElement("span");
     name.className = "org-name";
     name.textContent = org.nombre;
 
-    a.appendChild(logoBox);
     a.appendChild(name);
     return a;
   }
